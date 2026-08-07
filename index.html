@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huang Yingying · Blog</title>
+    <!-- 引入 ECharts 核心库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
     <style>
         /* 极简 + 轻量表情风格 + 粉红背景 + 随机星星 */
         * {
@@ -17,33 +19,33 @@
             line-height: 1.6;
             color: #1e1e2f;
             /* 🌸 粉红底层背景 */
-            background-color: #ffe4ec;      /* 温柔粉 */
+            background-color: #ffe4ec;
             background-image: 
                 radial-gradient(circle at 20% 30%, #ffd9e6 0%, #ffe4ec 70%);
-            min-height: 100vh
-            padding: 0 12px;        /* 从 0 24px 改为 0 12px，减少左右留白 */
-            width: 98%;             /* 从 95% 改为 98%，让页面更宽 */
-            max-width: 1600px;      /* 从 1400px 改为 1600px，放宽上限 */
-            margin: 30px auto;      /* 从 40px 改为 30px，微调上下间距 */
+            min-height: 100vh;
+            padding: 0 12px;
+            width: 98%;
+            max-width: 1600px;
+            margin: 30px auto;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* 星星容器 — 覆盖整个body，指针事件穿透，让点击不受影响 */
+        /* 星星容器 — 覆盖整个body，指针事件穿透 */
         #stars-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;    /* 让星星不干扰点击/交互 */
+            pointer-events: none;
             z-index: 9999;
             overflow: hidden;
         }
 
         .star {
             position: absolute;
-            color: #fff9c4;          /* 暖黄星光 */
+            color: #fff9c4;
             font-size: 1.2rem;
             opacity: 0.9;
             text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
@@ -53,7 +55,6 @@
             filter: drop-shadow(0 0 6px #ffb3c6);
         }
 
-        /* 随机掉落动画 —— 从顶部落到底部，同时左右轻微摇摆 */
         @keyframes fall {
             0% {
                 transform: translateY(-20px) rotate(0deg) scale(0.6);
@@ -71,7 +72,7 @@
             }
         }
 
-        /* 卡片式容器 — 白色磨砂，透出粉底 */
+        /* 卡片式容器 */
         .page {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(2px);
@@ -83,7 +84,7 @@
             z-index: 10;
         }
 
-        /* header：头像在左，文字在右 */
+        /* header */
         header {
             display: flex;
             justify-content: space-between;
@@ -92,7 +93,7 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #fadce6;
             flex-wrap: wrap;
-            flex-direction: row; 
+            flex-direction: row;
         }
 
         .header-photo {
@@ -304,6 +305,58 @@
             color: #7a4f5d;
         }
 
+        /* ===== 词云容器 ===== */
+        #wordcloud-wrapper {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 248, 250, 0.5);
+            border-radius: 24px;
+            padding: 18px 12px 10px 12px;
+            border: 1px solid #fad0dc;
+            box-shadow: inset 0 2px 12px rgba(200, 120, 140, 0.04);
+        }
+
+        #wordcloud-container {
+            width: 100%;
+            height: 380px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+            transition: all 0.2s;
+        }
+
+        .wordcloud-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8px 12px 8px;
+            flex-wrap: wrap;
+        }
+
+        .wordcloud-title span {
+            font-size: 0.9rem;
+            color: #7a5b67;
+            background: #ffdee8;
+            padding: 2px 16px;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+        }
+
+        .wordcloud-title .badge-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .wordcloud-title .badge-group .badge {
+            background: rgba(180, 100, 130, 0.08);
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #6d4c59;
+            border: 1px solid #f5d0dc;
+        }
+
         /* 底部 */
         .footer-note {
             margin-top: 28px;
@@ -387,6 +440,10 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            #wordcloud-container {
+                height: 280px;
+            }
         }
 
         @media (max-width: 420px) {
@@ -397,22 +454,23 @@
                 width: 110px;
                 height: 110px;
             }
+            #wordcloud-container {
+                height: 220px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 随机星星容器 (固定定位，不影响交互) -->
+    <!-- 随机星星容器 -->
     <div id="stars-container"></div>
 
     <div class="page">
         <header>
             <div class="header-photo">
-                <!-- 占位头像，可替换为真实图片 -->
                 <img src="avatar.jpg" width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='72' fill='%23fcd7e2'/%3E%3Ctext x='75' y='85' font-size='42' text-anchor='middle' fill='%23a0556b' font-family='system-ui, sans-serif'%3E🌙%3C/text%3E%3C/svg%3E"
                      alt="Huang Yingying avatar"
                      title="Huang Yingying ✨">
-                <!-- 可将 src 替换为真实头像 -->
             </div>
 
             <div class="header-text">
@@ -444,7 +502,27 @@
             <p style="font-size:1.05rem; padding-left:6px;">
                 <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🤖 Federated Learning</span>
                 <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🛡️ LLM Security</span>
+                <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🔐 Privacy Preservation</span>
+                <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px;">⚛️ Zero-Knowledge Proof</span>
             </p>
+        </section>
+
+        <!-- ===== 技术词云 ===== -->
+        <section style="margin-bottom: 28px;">
+            <h2>
+                <span class="emoji-badge">☁️</span> Tech Stack · 技术词云
+            </h2>
+            <div id="wordcloud-wrapper">
+                <div class="wordcloud-title">
+                    <span>🏷️ 可信AI · 系统安全 · 密码学 · 全栈开发</span>
+                    <div class="badge-group">
+                        <span class="badge">🧠 Trustworthy AI</span>
+                        <span class="badge">🔐 联邦学习</span>
+                        <span class="badge">🛡️ 隐私保护</span>
+                    </div>
+                </div>
+                <div id="wordcloud-container"></div>
+            </div>
         </section>
 
         <!-- 教育经历 -->
@@ -496,79 +574,186 @@
 
     <script>
         (function() {
+            // ===== 星星特效 =====
             const container = document.getElementById('stars-container');
-            if (!container) return;
+            if (container) {
+                const starSymbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
+                const starCount = Math.floor(Math.random() * 20) + 15;
 
-            // 星星字符集 (可爱风格)
-            const starSymbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    const symbol = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+                    star.textContent = symbol;
+                    const size = 0.8 + Math.random() * 1.8;
+                    star.style.fontSize = size + 'rem';
+                    star.style.left = Math.random() * 100 + '%';
+                    const duration = 8 + Math.random() * 18;
+                    star.style.animationDuration = duration + 's';
+                    star.style.animationDelay = Math.random() * 15 + 's';
+                    star.style.opacity = 0.6 + Math.random() * 0.4;
+                    star.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(star);
+                }
 
-            // 生成 40～55 颗星星
-            const starCount = Math.floor(Math.random() * 20) + 15; // 25~45
+                setInterval(() => {
+                    if (!container) return;
+                    if (container.children.length > 85) return;
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    const symbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
+                    star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    const size = 0.8 + Math.random() * 1.8;
+                    star.style.fontSize = size + 'rem';
+                    star.style.left = Math.random() * 100 + '%';
+                    const duration = 8 + Math.random() * 18;
+                    star.style.animationDuration = duration + 's';
+                    star.style.animationDelay = '0s';
+                    star.style.opacity = 0.6 + Math.random() * 0.4;
+                    star.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(star);
 
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-
-                // 随机符号
-                const symbol = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-                star.textContent = symbol;
-
-                // 随机大小 (0.6rem ~ 2.4rem)
-                const size = 0.8 + Math.random() * 1.8;
-                star.style.fontSize = size + 'rem';
-
-                // 随机初始位置 (left 0~100%)
-                const leftPos = Math.random() * 100;
-                star.style.left = leftPos + '%';
-
-                // 随机动画持续时间 (8s ~ 22s)
-                const duration = 8 + Math.random() * 18;
-                star.style.animationDuration = duration + 's';
-
-                // 随机延迟 (0 ~ 15s)
-                const delay = Math.random() * 15;
-                star.style.animationDelay = delay + 's';
-
-                // 随机透明度微调 (0.6~1)
-                star.style.opacity = 0.6 + Math.random() * 0.4;
-
-                // 随机旋转起始 (轻微)
-                star.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-                // 加入容器
-                container.appendChild(star);
-            }
-
-            // 可选：每隔一段时间补一颗新星 (动态感)
-            setInterval(() => {
-                if (!container) return;
-                // 如果星星太多 (>80) 则跳过
-                if (container.children.length > 85) return;
-
-                const star = document.createElement('div');
-                star.className = 'star';
-                const symbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
-                star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                const size = 0.8 + Math.random() * 1.8;
-                star.style.fontSize = size + 'rem';
-                star.style.left = Math.random() * 100 + '%';
-                const duration = 8 + Math.random() * 18;
-                star.style.animationDuration = duration + 's';
-                star.style.animationDelay = '0s'; 
-                star.style.opacity = 0.6 + Math.random() * 0.4;
-                star.style.transform = `rotate(${Math.random() * 360}deg)`;
-                container.appendChild(star);
-
-                // 自动移除 (防止无限增长) 当超过120颗时清理部分旧星
-                if (container.children.length > 120) {
-                    const removeCount = container.children.length - 100;
-                    for (let i = 0; i < removeCount; i++) {
-                        if (container.children[i]) {
-                            container.removeChild(container.children[i]);
+                    if (container.children.length > 120) {
+                        const removeCount = container.children.length - 100;
+                        for (let i = 0; i < removeCount; i++) {
+                            if (container.children[i]) {
+                                container.removeChild(container.children[i]);
+                            }
                         }
                     }
-                }
-            }, 4000);
+                }, 4000);
+            }
+
+            // ===== 词云 (ECharts) =====
+            const wordData = [
+                // 可信 AI & 联邦学习 & 隐私
+                { name: 'Trustworthy AI', value: 82 },
+                { name: 'Federated Learning', value: 78 },
+                { name: 'LLM Security', value: 74 },
+                { name: 'Privacy Preservation', value: 76 },
+                { name: 'Adversarial Training', value: 70 },
+                { name: 'Differential Privacy', value: 68 },
+                // 推荐系统 & 社区发现
+                { name: 'Recommender Systems', value: 65 },
+                { name: 'Community Detection', value: 62 },
+                // 系统安全 & 软件安全 & 网络安全
+                { name: 'System Security', value: 80 },
+                { name: 'Software Security', value: 72 },
+                { name: 'Network Security', value: 75 },
+                // 密码学 & 零知识证明 & 安全多方计算 & 同态加密
+                { name: 'Cryptography', value: 85 },
+                { name: 'Zero-Knowledge Proof', value: 73 },
+                { name: 'Secure Multi-party Computation', value: 69 },
+                { name: 'Homomorphic Encryption', value: 66 },
+                // 编程语言
+                { name: 'Python', value: 90 },
+                { name: 'C', value: 60 },
+                { name: 'Java', value: 68 },
+                { name: 'MATLAB', value: 45 },
+                { name: 'JavaScript', value: 64 },
+                { name: 'TypeScript', value: 63 },
+                // 深度学习框架 & 计算机视觉
+                { name: 'PyTorch', value: 79 },
+                { name: 'TensorFlow', value: 71 },
+                { name: 'OpenCV', value: 55 },
+                // 后端 & 前端 & API
+                { name: 'Flask', value: 58 },
+                { name: 'Vue3', value: 61 },
+                { name: 'Node.js', value: 59 },
+                { name: 'RESTful API', value: 60 },
+                // Spring 生态
+                { name: 'SpringBoot', value: 67 },
+                { name: 'SpringCloud', value: 56 },
+                { name: 'MyBatis', value: 50 },
+                { name: 'Maven', value: 48 },
+                // 数据库 & 中间件
+                { name: 'MySQL', value: 64 },
+                { name: 'Redis', value: 62 },
+                { name: 'Nginx', value: 57 },
+                // 运维 & 工具
+                { name: 'Linux', value: 70 },
+                { name: 'Git', value: 66 },
+                { name: 'Docker', value: 68 },
+                { name: 'LaTeX', value: 42 }
+            ];
+
+            // 按 value 降序排序
+            wordData.sort((a, b) => b.value - a.value);
+
+            const chartDom = document.getElementById('wordcloud-container');
+            if (chartDom) {
+                const myChart = echarts.init(chartDom);
+
+                const option = {
+                    tooltip: {
+                        show: true,
+                        formatter: function(params) {
+                            return `<strong>${params.name}</strong><br/>权重: ${params.value}`;
+                        },
+                        backgroundColor: 'rgba(40, 20, 35, 0.85)',
+                        borderColor: '#c4768b',
+                        borderWidth: 1,
+                        textStyle: { color: '#f5e8ec', fontSize: 13 }
+                    },
+                    series: [{
+                        type: 'wordCloud',
+                        width: '100%',
+                        height: '100%',
+                        left: '5%',
+                        right: '5%',
+                        top: '5%',
+                        bottom: '5%',
+                        shape: 'circle',
+                        gridSize: 6,
+                        sizeRange: [14, 56],
+                        rotationRange: [-65, 65],
+                        random: function() {
+                            return 0.5 + Math.random() * 0.5;
+                        },
+                        textStyle: {
+                            fontFamily: 'Segoe UI, system-ui, Roboto, "PingFang SC", "Microsoft YaHei", sans-serif',
+                            fontWeight: '600',
+                            color: function() {
+                                const hue = Math.floor(Math.random() * 360);
+                                const sat = 50 + Math.floor(Math.random() * 30);
+                                const lig = 35 + Math.floor(Math.random() * 35);
+                                return `hsl(${hue}, ${sat}%, ${lig}%)`;
+                            }
+                        },
+                        data: wordData,
+                        animation: true,
+                        animationDuration: 1200,
+                        animationEasing: 'cubicOut',
+                        emphasis: {
+                            focus: 'self',
+                            textStyle: {
+                                fontWeight: '700',
+                                color: '#2d1422',
+                                textShadowBlur: 14,
+                                textShadowColor: 'rgba(180, 80, 120, 0.3)'
+                            }
+                        }
+                    }]
+                };
+
+                myChart.setOption(option);
+
+                // 自适应
+                const resizeObserver = new ResizeObserver(() => {
+                    myChart.resize();
+                });
+                resizeObserver.observe(chartDom);
+
+                window.addEventListener('resize', () => {
+                    myChart.resize();
+                });
+
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) {
+                        setTimeout(() => myChart.resize(), 200);
+                    }
+                });
+            }
         })();
     </script>
 </body>
