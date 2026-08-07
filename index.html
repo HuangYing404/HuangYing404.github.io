@@ -302,10 +302,10 @@
             position: relative;
             background: #fcf4f7;
             border-radius: 24px;
-            padding: 20px 20px 10px 20px;
+            padding: 16px;
             margin-top: 4px;
             border: 1px solid #fadce6;
-            min-height: 420px;
+            min-height: 480px;
             overflow: hidden;
         }
 
@@ -315,121 +315,10 @@
             height: auto;
             border-radius: 12px;
             background: transparent;
-        }
-
-        .tech-graph-wrapper .tag-node {
-            position: absolute;
-            padding: 5px 14px;
-            border-radius: 40px;
-            font-weight: 500;
             cursor: default;
-            user-select: none;
-            text-align: center;
-            white-space: nowrap;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-            border: 1px solid rgba(196, 118, 139, 0.2);
-            box-shadow: 0 2px 8px rgba(180, 80, 100, 0.06);
-            font-size: 0.85rem;
-            pointer-events: auto;
-            z-index: 2;
-            transform-origin: center;
         }
 
-        .tech-graph-wrapper .tag-node:hover {
-            transform: scale(1.15) !important;
-            box-shadow: 0 6px 20px rgba(180, 80, 100, 0.2);
-            z-index: 10;
-            border-color: #c4768b;
-        }
-
-        /* 核心节点特殊样式 */
-        .tech-graph-wrapper .tag-node.core {
-            background: #c4768b;
-            color: #fff;
-            font-size: 1.15rem !important;
-            font-weight: 700;
-            padding: 8px 22px;
-            border-color: #b05f77;
-            box-shadow: 0 4px 20px rgba(196, 118, 139, 0.35);
-            letter-spacing: 0.5px;
-        }
-
-        .tech-graph-wrapper .tag-node.core:hover {
-            background: #b05f77;
-            box-shadow: 0 6px 28px rgba(196, 118, 139, 0.45);
-        }
-
-        .tech-graph-wrapper .tag-node.color-1 {
-            background: #ffdee8;
-            border-color: #eaa6b9;
-            color: #5d2f40;
-        }
-        .tech-graph-wrapper .tag-node.color-2 {
-            background: #e8d9f0;
-            border-color: #c9a8d9;
-            color: #4a2d5a;
-        }
-        .tech-graph-wrapper .tag-node.color-3 {
-            background: #fde6d6;
-            border-color: #eabfa6;
-            color: #5a3d2a;
-        }
-        .tech-graph-wrapper .tag-node.color-4 {
-            background: #d9ecf5;
-            border-color: #9ec4d6;
-            color: #2a4a5a;
-        }
-        .tech-graph-wrapper .tag-node.color-5 {
-            background: #f5e0e8;
-            border-color: #d9aab8;
-            color: #5a2a3a;
-        }
-        .tech-graph-wrapper .tag-node.color-6 {
-            background: #e6f0e0;
-            border-color: #aac99a;
-            color: #2a4a2a;
-        }
-
-        /* 图例 */
-        .graph-legend {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px 28px;
-            padding: 14px 10px 4px 10px;
-            font-size: 0.78rem;
-            color: #6d4c59;
-            border-top: 1px dashed #f2d7e0;
-            margin-top: 10px;
-        }
-        .graph-legend .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .graph-legend .legend-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-        }
-        .graph-legend .legend-dot.core-dot {
-            background: #c4768b;
-            width: 16px;
-            height: 16px;
-            border-color: #b05f77;
-        }
-        .graph-legend .legend-line {
-            display: inline-block;
-            width: 24px;
-            height: 2px;
-            background: rgba(196, 118, 139, 0.25);
-            border-radius: 2px;
-        }
-        .graph-legend .legend-line.strong {
-            height: 3px;
-            background: rgba(196, 118, 139, 0.5);
-        }
+        /* 图例已移除 */
 
         .footer-note {
             margin-top: 28px;
@@ -503,20 +392,8 @@
                 align-items: flex-start;
             }
             .tech-graph-wrapper {
-                padding: 12px 8px 6px 8px;
-                min-height: 300px;
-            }
-            .tech-graph-wrapper .tag-node {
-                padding: 3px 10px;
-                font-size: 0.7rem !important;
-            }
-            .tech-graph-wrapper .tag-node.core {
-                font-size: 0.95rem !important;
-                padding: 5px 14px;
-            }
-            .graph-legend {
-                font-size: 0.65rem;
-                gap: 8px 14px;
+                padding: 10px;
+                min-height: 350px;
             }
         }
 
@@ -527,6 +404,10 @@
             .header-photo img {
                 width: 110px;
                 height: 110px;
+            }
+            .tech-graph-wrapper {
+                min-height: 300px;
+                padding: 6px;
             }
         }
     </style>
@@ -620,22 +501,6 @@
             </h2>
             <div class="tech-graph-wrapper" id="graphWrapper">
                 <canvas id="graphCanvas"></canvas>
-                <!-- 节点由 JS 动态生成，覆盖在 canvas 之上 -->
-                <div id="nodeContainer" style="position:relative; width:100%; height:100%;"></div>
-                <div class="graph-legend">
-                    <span class="legend-item">
-                        <span class="legend-dot core-dot"></span> 核心
-                    </span>
-                    <span class="legend-item">
-                        <span class="legend-line strong"></span> 强关联
-                    </span>
-                    <span class="legend-item">
-                        <span class="legend-line"></span> 弱关联
-                    </span>
-                    <span class="legend-item">
-                        <span style="opacity:0.6;">✨ 悬停节点高亮</span>
-                    </span>
-                </div>
             </div>
         </section>
 
@@ -695,20 +560,23 @@
                 }, 4000);
             }
 
-            // ========== 知识图谱 ==========
+            // ========== 知识图谱 (纯Canvas实现) ==========
             const wrapper = document.getElementById('graphWrapper');
             const canvas = document.getElementById('graphCanvas');
-            const nodeContainer = document.getElementById('nodeContainer');
 
-            if (!wrapper || !canvas || !nodeContainer) return;
+            if (!wrapper || !canvas) return;
 
-            // ---- 定义节点数据 ----
-            // 核心：Trustworthy AI
-            // 一级关联：Federated Learning, LLM Security, Privacy Preservation, Adversarial Training, Differential Privacy, System Security, Cryptography
-            // 二级关联：其余所有
+            // ---- 定义技术数据 ----
+            const core = 'Trustworthy AI';
+
+            const primaryRelated = new Set([
+                'Federated Learning', 'LLM Security', 'Privacy Preservation',
+                'Adversarial Training', 'Differential Privacy', 'System Security',
+                'Cryptography'
+            ]);
 
             const allTechs = [
-                'Trustworthy AI',
+                core,
                 'Federated Learning', 'LLM Security', 'Privacy Preservation',
                 'Adversarial Training', 'Differential Privacy', 'System Security',
                 'Software Security', 'Network Security', 'Cryptography',
@@ -722,204 +590,165 @@
                 'Linux', 'Git', 'Docker', 'LaTeX'
             ];
 
-            // 定义核心和一级关联
-            const core = 'Trustworthy AI';
-            const primaryRelated = new Set([
-                'Federated Learning', 'LLM Security', 'Privacy Preservation',
-                'Adversarial Training', 'Differential Privacy', 'System Security',
-                'Cryptography'
-            ]);
-
-            // 其余为二级关联
             const secondaryRelated = allTechs.filter(t => t !== core && !primaryRelated.has(t));
 
-            // 构建节点列表：核心 -> 一级 -> 二级
+            // 节点列表
             const nodes = [core, ...Array.from(primaryRelated), ...secondaryRelated];
 
-            // 节点颜色映射
-            function getColorClass(word) {
-                const classes = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5', 'color-6'];
+            // ---- 节点颜色 ----
+            function getNodeColor(word, isCore) {
+                if (isCore) return { bg: '#c4768b', text: '#ffffff', border: '#b05f77' };
+                const colors = [
+                    { bg: '#ffdee8', text: '#5d2f40', border: '#eaa6b9' },
+                    { bg: '#e8d9f0', text: '#4a2d5a', border: '#c9a8d9' },
+                    { bg: '#fde6d6', text: '#5a3d2a', border: '#eabfa6' },
+                    { bg: '#d9ecf5', text: '#2a4a5a', border: '#9ec4d6' },
+                    { bg: '#f5e0e8', text: '#5a2a3a', border: '#d9aab8' },
+                    { bg: '#e6f0e0', text: '#2a4a2a', border: '#aac99a' }
+                ];
                 let hash = 0;
                 for (let i = 0; i < word.length; i++) {
                     hash = word.charCodeAt(i) + ((hash << 5) - hash);
                 }
-                return classes[Math.abs(hash) % classes.length];
+                return colors[Math.abs(hash) % colors.length];
             }
 
-            // 计算节点大小（基于层级和长度）
-            function getNodeSize(word, isCore) {
-                if (isCore) return 1.25;
-                if (primaryRelated.has(word)) return 1.0;
-                const len = word.length;
-                if (len <= 4) return 0.95;
-                if (len <= 8) return 0.85;
-                if (len <= 14) return 0.75;
-                return 0.65;
-            }
-
-            // ---- 布局参数 ----
-            const padding = 50;
+            // ---- 布局 ----
             let W, H;
-
-            function getWrapperSize() {
-                const rect = wrapper.getBoundingClientRect();
-                return { w: rect.width - 20, h: Math.max(400, rect.height - 60) };
-            }
-
-            function resizeCanvas() {
-                const { w, h } = getWrapperSize();
-                W = w;
-                H = h;
-                canvas.width = W * 2;
-                canvas.height = H * 2;
-                canvas.style.width = W + 'px';
-                canvas.style.height = H + 'px';
-                canvas.getContext('2d').scale(2, 2);
-                drawGraph();
-            }
-
-            // ---- 力导向布局（简化版） ----
             let positions = {};
 
+            function getSize() {
+                const rect = wrapper.getBoundingClientRect();
+                return { w: rect.width - 20, h: Math.max(400, rect.height - 20) };
+            }
+
             function layoutNodes() {
-                const count = nodes.length;
-                const centerX = W / 2;
-                const centerY = H / 2;
+                const { w, h } = getSize();
+                W = w;
+                H = h;
+                const cx = W / 2;
+                const cy = H / 2;
                 const radius = Math.min(W, H) * 0.38;
 
-                // 核心在中心
-                const coreIdx = nodes.indexOf(core);
-                const primaryIndices = [];
-                const secondaryIndices = [];
-
-                nodes.forEach((n, i) => {
-                    if (n === core) return;
-                    if (primaryRelated.has(n)) primaryIndices.push(i);
-                    else secondaryIndices.push(i);
-                });
-
-                // 分配位置
                 positions = {};
+                positions[core] = { x: cx, y: cy };
 
-                // 核心
-                positions[core] = { x: centerX, y: centerY };
+                const primaryList = Array.from(primaryRelated);
+                const secondaryList = secondaryRelated.slice();
 
-                // 一级：围绕核心均匀分布
-                const primaryCount = primaryIndices.length;
-                primaryIndices.forEach((idx, i) => {
-                    const angle = (i / primaryCount) * 2 * Math.PI - Math.PI / 2;
+                // 一级节点
+                const pCount = primaryList.length;
+                primaryList.forEach((word, i) => {
+                    const angle = (i / pCount) * 2 * Math.PI - Math.PI / 2;
                     const r = radius * 0.55;
-                    const word = nodes[idx];
                     positions[word] = {
-                        x: centerX + r * Math.cos(angle),
-                        y: centerY + r * Math.sin(angle)
+                        x: cx + r * Math.cos(angle),
+                        y: cy + r * Math.sin(angle)
                     };
                 });
 
-                // 二级：在更外层随机分布，但避免重叠
-                const secondaryCount = secondaryIndices.length;
-                const usedPositions = Object.values(positions);
+                // 二级节点
+                const used = Object.values(positions);
                 const outerR = radius * 0.88;
-
-                secondaryIndices.forEach((idx, i) => {
-                    const word = nodes[idx];
+                secondaryList.forEach((word) => {
                     let attempts = 0;
                     let x, y, ok;
                     do {
                         const angle = Math.random() * 2 * Math.PI;
-                        const r = outerR * (0.7 + Math.random() * 0.3);
-                        x = centerX + r * Math.cos(angle);
-                        y = centerY + r * Math.sin(angle);
+                        const r = outerR * (0.65 + Math.random() * 0.35);
+                        x = cx + r * Math.cos(angle);
+                        y = cy + r * Math.sin(angle);
                         ok = true;
-                        // 检查是否与其他节点重叠
-                        for (const p of usedPositions) {
+                        for (const p of used) {
                             const dx = p.x - x;
                             const dy = p.y - y;
-                            if (dx * dx + dy * dy < 1400) {
+                            if (dx * dx + dy * dy < 1200) {
                                 ok = false;
                                 break;
                             }
                         }
                         attempts++;
-                        if (attempts > 100) break;
+                        if (attempts > 150) break;
                     } while (!ok);
                     positions[word] = { x, y };
-                    usedPositions.push({ x, y });
+                    used.push({ x, y });
                 });
 
-                // 微调：对二级节点进行少量随机扰动，增加自然感
-                secondaryIndices.forEach((idx) => {
-                    const word = nodes[idx];
+                // 微调
+                secondaryList.forEach((word) => {
                     const p = positions[word];
                     if (p) {
-                        p.x += (Math.random() - 0.5) * 18;
-                        p.y += (Math.random() - 0.5) * 18;
+                        p.x += (Math.random() - 0.5) * 16;
+                        p.y += (Math.random() - 0.5) * 16;
                     }
                 });
             }
 
-            // ---- 绘制连线 ----
+            // ---- 绘制 ----
             function drawGraph() {
+                if (!canvas) return;
                 const ctx = canvas.getContext('2d');
+
+                // 设置canvas尺寸
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = W * dpr;
+                canvas.height = H * dpr;
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx.scale(dpr, dpr);
+
                 ctx.clearRect(0, 0, W, H);
 
                 if (Object.keys(positions).length === 0) return;
 
-                const corePos = positions[core];
-                if (!corePos) return;
+                const cp = positions[core];
+                if (!cp) return;
 
-                // 绘制连线：核心 -> 一级（强），核心 -> 二级（弱），一级 -> 二级（弱）
+                // ---- 绘制连线 ----
                 const lines = [];
 
                 // 核心 -> 一级 (强)
                 for (const word of primaryRelated) {
-                    const pos = positions[word];
-                    if (pos) {
-                        lines.push({ from: corePos, to: pos, strength: 'strong' });
-                    }
+                    const p = positions[word];
+                    if (p) lines.push({ from: cp, to: p, strength: 'strong' });
                 }
 
                 // 核心 -> 二级 (弱)
                 for (const word of secondaryRelated) {
-                    const pos = positions[word];
-                    if (pos) {
-                        lines.push({ from: corePos, to: pos, strength: 'weak' });
-                    }
+                    const p = positions[word];
+                    if (p) lines.push({ from: cp, to: p, strength: 'weak' });
                 }
 
-                // 一级 -> 二级 (弱) 随机选一部分连接，避免太密
-                const primaryArray = Array.from(primaryRelated);
-                const secondaryArray = secondaryRelated.slice();
-                // 随机打乱二级
-                for (let i = secondaryArray.length - 1; i > 0; i--) {
+                // 一级 -> 二级 (部分)
+                const primaryArr = Array.from(primaryRelated);
+                const secondaryArr = secondaryRelated.slice();
+                // 随机打乱
+                for (let i = secondaryArr.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [secondaryArray[i], secondaryArray[j]] = [secondaryArray[j], secondaryArray[i]];
+                    [secondaryArr[i], secondaryArr[j]] = [secondaryArr[j], secondaryArr[i]];
                 }
-                // 取前 60% 的二级节点与一级连接
-                const connectCount = Math.floor(secondaryArray.length * 0.6);
-                for (let i = 0; i < connectCount && i < secondaryArray.length; i++) {
-                    const secWord = secondaryArray[i];
+                const connectCount = Math.min(Math.floor(secondaryArr.length * 0.5), 20);
+                for (let i = 0; i < connectCount && i < secondaryArr.length; i++) {
+                    const secWord = secondaryArr[i];
                     const secPos = positions[secWord];
                     if (!secPos) continue;
-                    // 随机连接2~3个一级节点
-                    const numConnections = 2 + Math.floor(Math.random() * 2);
-                    const shuffledPrimary = primaryArray.slice().sort(() => Math.random() - 0.5);
-                    for (let j = 0; j < Math.min(numConnections, shuffledPrimary.length); j++) {
-                        const primWord = shuffledPrimary[j];
-                        const primPos = positions[primWord];
+                    const shuffledPrimary = primaryArr.slice().sort(() => Math.random() - 0.5);
+                    const numConn = 2 + Math.floor(Math.random() * 2);
+                    for (let j = 0; j < Math.min(numConn, shuffledPrimary.length); j++) {
+                        const primPos = positions[shuffledPrimary[j]];
                         if (primPos) {
                             lines.push({ from: primPos, to: secPos, strength: 'weak' });
                         }
                     }
                 }
 
-                // 二级节点之间少量连接
-                const shuffledSec = secondaryArray.slice().sort(() => Math.random() - 0.5);
-                for (let i = 0; i < Math.min(shuffledSec.length, 12); i++) {
+                // 二级之间少量连接
+                const shuffledSec = secondaryArr.slice().sort(() => Math.random() - 0.5);
+                for (let i = 0; i < Math.min(shuffledSec.length, 10); i++) {
                     for (let j = i + 1; j < Math.min(i + 3, shuffledSec.length); j++) {
                         const p1 = positions[shuffledSec[i]];
                         const p2 = positions[shuffledSec[j]];
-                        if (p1 && p2 && Math.random() > 0.5) {
+                        if (p1 && p2 && Math.random() > 0.55) {
                             lines.push({ from: p1, to: p2, strength: 'weak' });
                         }
                     }
@@ -928,126 +757,213 @@
                 // 绘制连线
                 for (const line of lines) {
                     const { from, to, strength } = line;
-                    const alpha = strength === 'strong' ? 0.45 : 0.15;
-                    const lineWidth = strength === 'strong' ? 2.5 : 1.2;
+                    const alpha = strength === 'strong' ? 0.4 : 0.12;
+                    const lw = strength === 'strong' ? 2.5 : 1.0;
                     ctx.beginPath();
                     ctx.moveTo(from.x, from.y);
                     ctx.lineTo(to.x, to.y);
                     ctx.strokeStyle = `rgba(196, 118, 139, ${alpha})`;
-                    ctx.lineWidth = lineWidth;
+                    ctx.lineWidth = lw;
                     ctx.stroke();
                 }
 
-                // 绘制发光核心光晕
-                const grad = ctx.createRadialGradient(corePos.x, corePos.y, 2, corePos.x, corePos.y, 70);
-                grad.addColorStop(0, 'rgba(196, 118, 139, 0.08)');
+                // ---- 绘制核心光晕 ----
+                const grad = ctx.createRadialGradient(cp.x, cp.y, 2, cp.x, cp.y, 65);
+                grad.addColorStop(0, 'rgba(196, 118, 139, 0.06)');
                 grad.addColorStop(1, 'rgba(196, 118, 139, 0)');
                 ctx.fillStyle = grad;
                 ctx.beginPath();
-                ctx.arc(corePos.x, corePos.y, 70, 0, 2 * Math.PI);
+                ctx.arc(cp.x, cp.y, 65, 0, 2 * Math.PI);
                 ctx.fill();
-            }
 
-            // ---- 生成节点DOM ----
-            function renderNodes() {
-                nodeContainer.innerHTML = '';
-                const wrapperRect = wrapper.getBoundingClientRect();
-
+                // ---- 绘制节点 ----
                 for (const word of nodes) {
                     const pos = positions[word];
                     if (!pos) continue;
-
                     const isCore = word === core;
-                    const size = getNodeSize(word, isCore);
-                    const colorClass = isCore ? 'core' : getColorClass(word);
+                    const color = getNodeColor(word, isCore);
 
-                    const el = document.createElement('span');
-                    el.className = `tag-node ${colorClass}`;
-                    el.textContent = word;
-                    el.style.left = (pos.x - 20) + 'px';
-                    el.style.top = (pos.y - 16) + 'px';
-                    el.style.fontSize = size + 'rem';
-                    if (!isCore) {
-                        el.style.transform = `rotate(${(Math.random() - 0.5) * 3}deg)`;
+                    // 计算字体大小
+                    let fontSize;
+                    if (isCore) fontSize = 15;
+                    else if (primaryRelated.has(word)) fontSize = 12;
+                    else {
+                        const len = word.length;
+                        if (len <= 4) fontSize = 11.5;
+                        else if (len <= 8) fontSize = 10.5;
+                        else if (len <= 14) fontSize = 9.5;
+                        else fontSize = 8.5;
                     }
-                    // 悬停高亮：放大并提升层级
-                    el.title = word;
 
-                    // 存储位置用于悬停连线高亮
-                    el.dataset.word = word;
-                    el.dataset.x = pos.x;
-                    el.dataset.y = pos.y;
+                    // 测量文字宽度
+                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
+                    const metrics = ctx.measureText(word);
+                    const tw = metrics.width;
+                    const th = fontSize * 1.3;
+                    const padX = isCore ? 18 : 14;
+                    const padY = isCore ? 10 : 7;
+                    const bw = tw + padX * 2;
+                    const bh = th + padY * 2;
+                    const rx = pos.x - bw / 2;
+                    const ry = pos.y - bh / 2;
 
-                    nodeContainer.appendChild(el);
+                    // 阴影
+                    ctx.shadowColor = 'rgba(180, 80, 100, 0.08)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 2;
+
+                    // 圆角矩形
+                    const r = isCore ? 30 : 20;
+                    ctx.beginPath();
+                    ctx.moveTo(rx + r, ry);
+                    ctx.lineTo(rx + bw - r, ry);
+                    ctx.quadraticCurveTo(rx + bw, ry, rx + bw, ry + r);
+                    ctx.lineTo(rx + bw, ry + bh - r);
+                    ctx.quadraticCurveTo(rx + bw, ry + bh, rx + bw - r, ry + bh);
+                    ctx.lineTo(rx + r, ry + bh);
+                    ctx.quadraticCurveTo(rx, ry + bh, rx, ry + bh - r);
+                    ctx.lineTo(rx, ry + r);
+                    ctx.quadraticCurveTo(rx, ry, rx + r, ry);
+                    ctx.closePath();
+
+                    ctx.shadowColor = 'rgba(180, 80, 100, 0.08)';
+                    ctx.shadowBlur = 10;
+
+                    ctx.fillStyle = color.bg;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.strokeStyle = color.border;
+                    ctx.lineWidth = isCore ? 2 : 1;
+                    ctx.stroke();
+
+                    // 文字
+                    ctx.fillStyle = color.text;
+                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(word, pos.x, pos.y + 1);
+                }
+
+                // ---- 绘制图例（在画布左上角） ----
+                const legendItems = [
+                    { label: '● 核心', color: '#c4768b', type: 'dot' },
+                    { label: '— 强关联', color: 'rgba(196,118,139,0.5)', type: 'line' },
+                    { label: '— 弱关联', color: 'rgba(196,118,139,0.15)', type: 'line' }
+                ];
+
+                let lx = 16;
+                let ly = 16;
+                ctx.shadowBlur = 0;
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textBaseline = 'middle';
+
+                for (const item of legendItems) {
+                    const label = item.label;
+                    const metrics2 = ctx.measureText(label);
+                    const lw2 = metrics2.width;
+
+                    // 背景
+                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                    ctx.shadowColor = 'rgba(0,0,0,0.03)';
+                    ctx.shadowBlur = 4;
+                    const bgW = lw2 + 20;
+                    const bgH = 26;
+                    ctx.beginPath();
+                    ctx.roundRect(lx - 6, ly - 4, bgW, bgH, 12);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    // 绘制图例标记
+                    if (item.type === 'dot') {
+                        ctx.beginPath();
+                        ctx.arc(lx + 8, ly + 9, 5, 0, 2 * Math.PI);
+                        ctx.fillStyle = item.color;
+                        ctx.fill();
+                    } else {
+                        ctx.beginPath();
+                        ctx.moveTo(lx + 4, ly + 9);
+                        ctx.lineTo(lx + 16, ly + 9);
+                        ctx.strokeStyle = item.color;
+                        ctx.lineWidth = item.label.includes('强') ? 3 : 1.5;
+                        ctx.stroke();
+                    }
+
+                    ctx.fillStyle = '#5d3f4b';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(label, lx + 20, ly + 9);
+
+                    lx += bgW + 6;
                 }
             }
 
-            // ---- 窗口自适应 ----
-            let resizeTimer;
-
-            function rebuildGraph() {
-                resizeCanvas();
-                layoutNodes();
-                drawGraph();
-                renderNodes();
-                // 调整节点位置使它们精确对齐
-                requestAnimationFrame(() => {
-                    const children = nodeContainer.children;
-                    for (let i = 0; i < children.length; i++) {
-                        const el = children[i];
-                        const word = el.dataset.word;
-                        const pos = positions[word];
-                        if (pos) {
-                            const rect = el.getBoundingClientRect();
-                            const wrapperRect = wrapper.getBoundingClientRect();
-                            // 使用相对定位
-                            el.style.left = (pos.x - rect.width / 2) + 'px';
-                            el.style.top = (pos.y - rect.height / 2) + 'px';
-                        }
-                    }
-                });
+            // 扩展 CanvasRenderingContext2D.roundRect
+            if (!CanvasRenderingContext2D.prototype.roundRect) {
+                CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                    if (r > w / 2) r = w / 2;
+                    if (r > h / 2) r = h / 2;
+                    this.moveTo(x + r, y);
+                    this.arcTo(x + w, y, x + w, y + h, r);
+                    this.arcTo(x + w, y + h, x, y + h, r);
+                    this.arcTo(x, y + h, x, y, r);
+                    this.arcTo(x, y, x + w, y, r);
+                    return this;
+                };
             }
 
-            // 防抖resize
+            // ---- 重建 ----
+            let rebuildTimer;
+
+            function rebuild() {
+                layoutNodes();
+                drawGraph();
+            }
+
+            // ---- 响应式 ----
             window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(rebuildGraph, 300);
+                clearTimeout(rebuildTimer);
+                rebuildTimer = setTimeout(rebuild, 200);
             });
 
             // 初始构建
-            setTimeout(rebuildGraph, 100);
+            setTimeout(rebuild, 100);
 
-            // 额外：在完全加载后重新计算一次
             window.addEventListener('load', () => {
-                setTimeout(rebuildGraph, 300);
+                setTimeout(rebuild, 300);
             });
 
-            // 监听节点悬停，高亮相关连线（简化版：悬停时重新绘制，高亮相关节点）
-            nodeContainer.addEventListener('mouseenter', (e) => {
-                const target = e.target.closest('.tag-node');
-                if (!target) return;
-                // 简单悬停效果已经由CSS处理
-            }, true);
+            // 微动：二级节点缓慢漂移
+            let animFrame;
+            let driftCount = 0;
 
-            // 每5秒刷新一次布局，让星星和图谱保持活力（但不会频繁重绘）
-            let refreshCount = 0;
-            setInterval(() => {
-                refreshCount++;
-                if (refreshCount % 3 === 0) {
-                    // 偶尔微调节点位置，增加动态感（仅轻微扰动二级节点）
-                    if (Object.keys(positions).length > 0) {
-                        for (const word of secondaryRelated) {
-                            const p = positions[word];
-                            if (p) {
-                                p.x += (Math.random() - 0.5) * 2;
-                                p.y += (Math.random() - 0.5) * 2;
-                            }
+            function driftLoop() {
+                driftCount++;
+                if (driftCount % 6 === 0 && Object.keys(positions).length > 0) {
+                    for (const word of secondaryRelated) {
+                        const p = positions[word];
+                        if (p) {
+                            p.x += (Math.random() - 0.5) * 1.2;
+                            p.y += (Math.random() - 0.5) * 1.2;
+                            // 限制在边界内
+                            const margin = 40;
+                            p.x = Math.max(margin, Math.min(W - margin, p.x));
+                            p.y = Math.max(margin, Math.min(H - margin, p.y));
                         }
-                        drawGraph();
-                        renderNodes();
                     }
+                    drawGraph();
                 }
-            }, 8000);
+                animFrame = requestAnimationFrame(driftLoop);
+            }
+
+            // 启动微动，但延迟一会儿
+            setTimeout(() => {
+                driftLoop();
+            }, 3000);
+
+            // 清理
+            window.addEventListener('beforeunload', () => {
+                if (animFrame) cancelAnimationFrame(animFrame);
+            });
 
         })();
     </script>
