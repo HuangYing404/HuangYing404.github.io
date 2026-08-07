@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huang Meng - Personal Website</title>
+    <style>
+        /* 极简 CSS 样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px; /* 限制网页最大宽度 */
+            margin: 40px auto; /* 居中显示 */
+            padding: 0 20px;
+            background-color: #fff;
+        }
+
+        /* 头部布局：姓名左，头像右 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* 顶部对齐 */
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* 左侧个人信息区域 */
+        .header-text {
+            flex: 1; /* 占据剩余空间 */
+            padding-right: 20px;
+        }
+
+        .header-text h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            color: #000;
+        }
+
+        .header-text .title {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* 联系方式列表：去掉圆点，靠左对齐 */
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .contact-list li {
+            margin-bottom: 5px;
+        }
+
+        .contact-list a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        .contact-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* 右侧头像区域 */
+        .header-photo {
+            flex-shrink: 0; /* 防止头像被压缩 */
+        }
+
+        .header-photo img {
+            width: 150px; /* 头像宽度 */
+            height: 150px; /* 头像高度 */
+            border-radius: 50%; /* 圆形头像，如果喜欢正方形可去掉这行 */
+            object-fit: cover; /* 确保图片不失真 */
+            border: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 主体部分样式 */
+        section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.3em;
+            color: #222;
+            border-left: 4px solid #0366d6; /* 左侧蓝色装饰条 */
+            padding-left: 10px;
+            margin-bottom: 15px;
+            margin-top: 0;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+        }
+
+        ul.main-list {
+            padding-left: 15px;
+            margin: 0;
+        }
+
+        ul.main-list li {
+            margin-bottom: 8px;
+        }
+
+        /* 用于把时间靠右对齐的样式 */
+        .date {
+            float: right;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        /* 响应式设计：手机端头像自动居中，信息居下 */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column-reverse; /* 手机上头像在上面 */
+                align-items: center;
+                text-align: center;
+            }
+
+            .header-text {
+                padding-right: 0;
+                margin-top: 20px;
+            }
+
+            .header-photo img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .date {
+                float: none;
+                display: block;
+                margin-top: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- 左侧：姓名与联系方式 -->
+        <div class="header-text">
+            <h1>Huang Yingying (黄莹莹)</h1>
+            <div class="title">Master Student in Computer Science</div>
+            
+            <ul class="contact-list">
+                <li><strong>University:</strong> [Wuhan University]</li>
+                <li><strong>Email:</strong> <a href="mailto:yinghuang2233@gmail.com">yinghuang2233@gmail.com</a></li>
+            </ul>
+        </div>
+
+        <!-- 右侧：头像 -->
+        <div class="header-photo">
+            <!-- 请确保有一张名为 avatar.jpg 的图片与此文件在同一目录下 -->
+            <img src="avatar.jpg" alt="Huang Meng">
+        </div>
+    </header>
+
+<!-- 研究方向 -->
+    <section>
+        <h2>Research Interests</h2>
+        <p>My research focuses on <strong>Federated Learning</strong> and <strong>Large Language Model (LLM) Security</strong>.</p>
+    </section>
+
+    <!-- 教育经历 -->
+    <section>
+        <h2>Education</h2>
+        <ul class="main-list">
+            <li>
+                <span class="date">Sep. 2025 - Expected Jun. 2028</span>
+                <strong>Wuhan University</strong><br>
+                M.S. in Computer Science, School of Cyber Science and Engineering
+            </li>
+        </ul>
+    </section>
+
+<!-- 奖项与荣誉 -->
+    <section>
+        <h2>Awards & Honors</h2>
+        <ul class="main-list">
+            <li><span class="date">2024</span> Zhengwei Scholarship</li>
+            <li><span class="date">2023</span> Outstanding Student Award</li>
+            <li><span class="date">2022</span> Huawei Scholarship, Merit Student Award</li>
+        </ul>
+    </section>
+
+</body>
+</html>
