@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huang Yingying</title>
+    <title>Huang Yingying · 粉星星</title>
     <style>
-        /* 极简 + 轻量表情风格 */
+        /* 极简 + 轻量表情风格 + 粉红背景 + 随机星星 */
         * {
             margin: 0;
             padding: 0;
@@ -17,18 +17,70 @@
             line-height: 1.6;
             color: #1e1e2f;
             padding: 0 24px;
-            background-color: #fafafa;
-            width: 95%;        /* 页面始终占据屏幕 80% 的宽度 */
-            max-width: 1400px; /* 可选：设置一个极限上限，防止在超大带鱼屏上文字太散 */
+            /* 🌸 粉红底层背景 */
+            background-color: #ffe4ec;      /* 温柔粉 */
+            background-image: 
+                radial-gradient(circle at 20% 30%, #ffd9e6 0%, #ffe4ec 70%);
+            min-height: 100vh;
+            width: 95%;
+            max-width: 1400px;
             margin: 40px auto;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* 卡片式容器 */
+        /* 星星容器 — 覆盖整个body，指针事件穿透，让点击不受影响 */
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;    /* 让星星不干扰点击/交互 */
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            color: #fff9c4;          /* 暖黄星光 */
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+            animation: fall linear infinite;
+            pointer-events: none;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 0 6px #ffb3c6);
+        }
+
+        /* 随机掉落动画 —— 从顶部落到底部，同时左右轻微摇摆 */
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg) scale(0.6);
+                opacity: 0.9;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        /* 卡片式容器 — 白色磨砂，透出粉底 */
         .page {
-            background: white;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(2px);
             border-radius: 28px;
             padding: 40px 36px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 12px 30px rgba(180, 80, 100, 0.12);
+            border: 1px solid rgba(255, 220, 230, 0.5);
+            position: relative;
+            z-index: 10;
         }
 
         /* header：头像在左，文字在右 */
@@ -38,12 +90,11 @@
             align-items: flex-start;
             margin-bottom: 32px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #eaeef2;
+            border-bottom: 1px solid #fadce6;
             flex-wrap: wrap;
             flex-direction: row; 
         }
 
-        /* 头像容器 — 左侧 */
         .header-photo {
             flex-shrink: 0;
             margin-right: 24px;
@@ -54,17 +105,16 @@
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #eef3f8;
-            box-shadow: 0 6px 14px rgba(0, 20, 30, 0.06);
+            border: 3px solid #ffd9e4;
+            box-shadow: 0 6px 14px rgba(200, 100, 130, 0.15);
             transition: transform 0.2s ease;
-            background: #f0f4fa;
+            background: #ffeef2;
         }
 
         .header-photo img:hover {
             transform: scale(1.02);
         }
 
-        /* 右侧文字 */
         .header-text {
             flex: 1;
             min-width: 200px;
@@ -74,7 +124,7 @@
             margin: 0 0 6px 0;
             font-size: 2.4em;
             font-weight: 600;
-            color: #0b1a2b;
+            color: #3d1f2b;
             letter-spacing: -0.3px;
             display: flex;
             align-items: center;
@@ -85,9 +135,9 @@
         .header-text h1 small {
             font-size: 0.55rem;
             font-weight: 400;
-            color: #6c7a8a;
+            color: #a06b7a;
             margin-left: 6px;
-            background: #eef3f8;
+            background: #ffdee8;
             padding: 0 10px;
             border-radius: 40px;
             letter-spacing: 0.2px;
@@ -95,7 +145,7 @@
 
         .title {
             font-size: 1.1em;
-            color: #3d4e62;
+            color: #5d3f4b;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
@@ -108,7 +158,7 @@
             padding: 0;
             margin: 0;
             font-size: 0.96em;
-            color: #2a3b4e;
+            color: #3d2a32;
         }
 
         .contact-list li {
@@ -121,22 +171,22 @@
 
         .contact-list li strong {
             font-weight: 600;
-            color: #1d2c3f;
+            color: #482e39;
         }
 
         .contact-list a {
-            color: #1f6d9e;
+            color: #b1526b;
             text-decoration: none;
-            border-bottom: 1px dotted #b6ccdd;
+            border-bottom: 1px dotted #e5b6c4;
         }
 
         .contact-list a:hover {
-            border-bottom: 2px solid #1f6d9e;
+            border-bottom: 2px solid #b1526b;
         }
 
-        /* 名言区块 — 英文版本 */
+        /* 名言区块 */
         .quote-block {
-            background: #f6f9fe;
+            background: #ffeef3;
             padding: 18px 22px;
             border-radius: 60px 20px 20px 60px;
             margin: 20px 0 30px 0;
@@ -144,7 +194,7 @@
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            border-left: 4px solid #a1c2dc;
+            border-left: 4px solid #eaa6b9;
         }
 
         .quote-block .quote-icon {
@@ -155,7 +205,7 @@
 
         .quote-block .quote-text {
             font-size: 1.05rem;
-            color: #1b3045;
+            color: #4c2e3a;
             font-weight: 400;
             font-style: italic;
             letter-spacing: 0.2px;
@@ -163,20 +213,19 @@
 
         .quote-block .quote-text strong {
             font-style: normal;
-            color: #1f4b6e;
+            color: #8f4b5e;
         }
 
         .quote-block .quote-author {
             margin-left: auto;
             font-size: 0.9rem;
-            color: #5b6f82;
-            background: #e4ecf5;
+            color: #795c67;
+            background: #fadce6;
             padding: 2px 14px;
             border-radius: 40px;
             white-space: nowrap;
         }
 
-        /* 通用 section */
         section {
             margin-bottom: 34px;
         }
@@ -184,8 +233,8 @@
         h2 {
             font-size: 1.4em;
             font-weight: 600;
-            color: #142433;
-            border-left: 5px solid #3875a0;
+            color: #3d202c;
+            border-left: 5px solid #c4768b;
             padding-left: 14px;
             margin-bottom: 18px;
             display: flex;
@@ -202,7 +251,7 @@
 
         p {
             margin: 0 0 12px 0;
-            color: #1f3348;
+            color: #3d2833;
         }
 
         ul.main-list {
@@ -215,7 +264,7 @@
             margin-bottom: 16px;
             padding-left: 6px;
             position: relative;
-            border-bottom: 1px dashed #e9edf2;
+            border-bottom: 1px dashed #f2d7e0;
             padding-bottom: 12px;
         }
 
@@ -226,9 +275,9 @@
 
         ul.main-list li .date {
             float: right;
-            color: #56748c;
+            color: #7d5b68;
             font-size: 0.85em;
-            background: #edf3f9;
+            background: #ffebf0;
             padding: 0 12px;
             border-radius: 30px;
             font-weight: 450;
@@ -236,10 +285,9 @@
         }
 
         ul.main-list li strong {
-            color: #0e263b;
+            color: #421f2d;
         }
 
-        /* 奖项特殊微调 */
         .award-item {
             display: flex;
             flex-wrap: wrap;
@@ -249,14 +297,33 @@
 
         .award-item .date {
             float: none;
-            background: #eaf0f6;
+            background: #ffdee8;
             padding: 0 12px;
             border-radius: 30px;
             font-size: 0.8em;
-            color: #2f577a;
+            color: #7a4f5d;
         }
 
-        /* 响应式：手机端头像在上，文字在下 (头像左 -> 变为上) */
+        /* 底部 */
+        .footer-note {
+            margin-top: 28px;
+            border-top: 1px solid #fad0dc;
+            padding-top: 16px;
+            font-size: 0.9rem;
+            color: #775a66;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-note span:last-child {
+            background: #ffdee8;
+            padding: 2px 14px;
+            border-radius: 40px;
+        }
+
+        /* 响应式 */
         @media (max-width: 640px) {
             .page {
                 padding: 24px 16px;
@@ -264,7 +331,7 @@
             }
 
             header {
-                flex-direction: column-reverse;  /* 头像在上，文字在下 */
+                flex-direction: column-reverse;
                 align-items: center;
                 text-align: center;
             }
@@ -334,18 +401,20 @@
     </style>
 </head>
 <body>
+
+    <!-- 随机星星容器 (固定定位，不影响交互) -->
+    <div id="stars-container"></div>
+
     <div class="page">
         <header>
-            <!-- 左侧：头像 (现在是左边) -->
             <div class="header-photo">
-                <!-- 使用 SVG 占位头像，可替换为真实图片 -->
-                <img src="avatar.jpg" width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='72' fill='%23d9e5f0'/%3E%3Ctext x='75' y='85' font-size='42' text-anchor='middle' fill='%2334546b' font-family='system-ui, sans-serif'%3E🌙%3C/text%3E%3C/svg%3E"
+                <!-- 占位头像，可替换为真实图片 -->
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='72' fill='%23fcd7e2'/%3E%3Ctext x='75' y='85' font-size='42' text-anchor='middle' fill='%23a0556b' font-family='system-ui, sans-serif'%3E🌙%3C/text%3E%3C/svg%3E"
                      alt="Huang Yingying avatar"
                      title="Huang Yingying ✨">
-                <!-- 将 src 替换为您的头像图片，例如 avatar.jpg -->
+                <!-- 可将 src 替换为真实头像 -->
             </div>
 
-            <!-- 右侧：姓名 + 联系方式 -->
             <div class="header-text">
                 <h1>
                     Huang Yingying
@@ -360,10 +429,10 @@
                     <li><span>🏛️</span> <strong>University:</strong> Wuhan University</li>
                     <li><span>📬</span> <strong>Email:</strong> 
                         <a href="mailto:yinghuang2233@gmail.com">yinghuang2233@gmail.com</a> 
-                        <span style="color:#7d8f9e; margin:0 4px;">·</span> 
+                        <span style="color:#a07a85; margin:0 4px;">·</span> 
                         <a href="mailto:2025202210052@whu.edu.cn">2025202210052@whu.edu.cn</a>
                     </li>
-                    <li><span>📍</span> <span style="color:#4b637a;">Wuhan · China</span></li>
+                    <li><span>📍</span> <span style="color:#6d4c59;">Wuhan · China</span></li>
                 </ul>
             </div>
         </header>
@@ -374,9 +443,8 @@
                 <span class="emoji-badge">🔎</span> Research Interests
             </h2>
             <p style="font-size:1.05rem; padding-left:6px;">
-                <span style="background:#e3ecf5; padding:2px 12px; border-radius:40px; margin-right:8px;">🤖 Federated Learning</span>
-                <span style="background:#e3ecf5; padding:2px 12px; border-radius:40px; margin-right:8px;">🛡️ LLM Security</span>
-                
+                <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🤖 Federated Learning</span>
+                <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🛡️ LLM Security</span>
             </p>
         </section>
 
@@ -388,13 +456,13 @@
             <ul class="main-list">
                 <li>
                     <span class="date">📅 Sep. 2025 – Expected Jun. 2028</span>
-                    <strong>Wuhan University</strong> <span style="color:#3e627f; font-size:0.9rem;"></span><br>
-                    <span style="color:#38586e;">M.S. in Cyberspace Security</span> · School of Cyber Science and Engineering
+                    <strong>Wuhan University</strong> <span style="color:#6d4c59; font-size:0.9rem;"></span><br>
+                    <span style="color:#5f3f4b;">M.S. in Cyberspace Security</span> · School of Cyber Science and Engineering
                 </li>
                 <li>
                     <span class="date">📅 Sep. 2021 – Jun. 2025</span>
-                    <strong>Anhui University</strong> <span style="color:#3e627f; font-size:0.9rem;"></span><br>
-                    <span style="color:#38586e;">B.S. in Information Security</span> · School of Computer Science and Technology
+                    <strong>Anhui University</strong> <span style="color:#6d4c59; font-size:0.9rem;"></span><br>
+                    <span style="color:#5f3f4b;">B.S. in Information Security</span> · School of Computer Science and Technology
                 </li>
             </ul>
         </section>
@@ -420,11 +488,89 @@
             </ul>
         </section>
 
-        <!-- 底部第二句名言 · 英文 -->
-        <div style="margin-top: 28px; border-top: 1px solid #e5ebf0; padding-top: 16px; font-size:0.9rem; color:#5d7388; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+        <!-- 底部第二句名言 -->
+        <div class="footer-note">
             <span>💬 “<em>If the heart has no place to rest, it wanders everywhere.</em>” — Sanmao</span>
-            <span style="background:#e7eef6; padding:2px 14px; border-radius:40px;">✨ 2026 · 夏</span>
+            <span>✨ 2026 · 夏</span>
         </div>
     </div>
+
+    <script>
+        (function() {
+            const container = document.getElementById('stars-container');
+            if (!container) return;
+
+            // 星星字符集 (可爱风格)
+            const starSymbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
+
+            // 生成 40～55 颗星星
+            const starCount = Math.floor(Math.random() * 20) + 45; // 45~65
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                // 随机符号
+                const symbol = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+                star.textContent = symbol;
+
+                // 随机大小 (0.6rem ~ 2.4rem)
+                const size = 0.8 + Math.random() * 1.8;
+                star.style.fontSize = size + 'rem';
+
+                // 随机初始位置 (left 0~100%)
+                const leftPos = Math.random() * 100;
+                star.style.left = leftPos + '%';
+
+                // 随机动画持续时间 (8s ~ 22s)
+                const duration = 8 + Math.random() * 18;
+                star.style.animationDuration = duration + 's';
+
+                // 随机延迟 (0 ~ 15s)
+                const delay = Math.random() * 15;
+                star.style.animationDelay = delay + 's';
+
+                // 随机透明度微调 (0.6~1)
+                star.style.opacity = 0.6 + Math.random() * 0.4;
+
+                // 随机旋转起始 (轻微)
+                star.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                // 加入容器
+                container.appendChild(star);
+            }
+
+            // 可选：每隔一段时间补一颗新星 (动态感)
+            setInterval(() => {
+                if (!container) return;
+                // 如果星星太多 (>80) 则跳过
+                if (container.children.length > 85) return;
+
+                const star = document.createElement('div');
+                star.className = 'star';
+                const symbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
+                star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                const size = 0.8 + Math.random() * 1.8;
+                star.style.fontSize = size + 'rem';
+                star.style.left = Math.random() * 100 + '%';
+                const duration = 8 + Math.random() * 18;
+                star.style.animationDuration = duration + 's';
+                star.style.animationDelay = '0s'; 
+                star.style.opacity = 0.6 + Math.random() * 0.4;
+                star.style.transform = `rotate(${Math.random() * 360}deg)`;
+                container.appendChild(star);
+
+                // 自动移除 (防止无限增长) 当超过120颗时清理部分旧星
+                if (container.children.length > 120) {
+                    const removeCount = container.children.length - 100;
+                    for (let i = 0; i < removeCount; i++) {
+                        if (container.children[i]) {
+                            container.removeChild(container.children[i]);
+                        }
+                    }
+                }
+            }, 4000);
+        })();
+    </script>
 </body>
 </html>
