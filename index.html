@@ -964,4 +964,92 @@
                     const el = document.createElement('span');
                     el.className = `tag-node ${colorClass}`;
                     el.textContent = word;
-                    el.style.left
+                    el.style.left = (pos.x - 20) + 'px';
+                    el.style.top = (pos.y - 16) + 'px';
+                    el.style.fontSize = size + 'rem';
+                    if (!isCore) {
+                        el.style.transform = `rotate(${(Math.random() - 0.5) * 3}deg)`;
+                    }
+                    // 悬停高亮：放大并提升层级
+                    el.title = word;
+
+                    // 存储位置用于悬停连线高亮
+                    el.dataset.word = word;
+                    el.dataset.x = pos.x;
+                    el.dataset.y = pos.y;
+
+                    nodeContainer.appendChild(el);
+                }
+            }
+
+            // ---- 窗口自适应 ----
+            let resizeTimer;
+
+            function rebuildGraph() {
+                resizeCanvas();
+                layoutNodes();
+                drawGraph();
+                renderNodes();
+                // 调整节点位置使它们精确对齐
+                requestAnimationFrame(() => {
+                    const children = nodeContainer.children;
+                    for (let i = 0; i < children.length; i++) {
+                        const el = children[i];
+                        const word = el.dataset.word;
+                        const pos = positions[word];
+                        if (pos) {
+                            const rect = el.getBoundingClientRect();
+                            const wrapperRect = wrapper.getBoundingClientRect();
+                            // 使用相对定位
+                            el.style.left = (pos.x - rect.width / 2) + 'px';
+                            el.style.top = (pos.y - rect.height / 2) + 'px';
+                        }
+                    }
+                });
+            }
+
+            // 防抖resize
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(rebuildGraph, 300);
+            });
+
+            // 初始构建
+            setTimeout(rebuildGraph, 100);
+
+            // 额外：在完全加载后重新计算一次
+            window.addEventListener('load', () => {
+                setTimeout(rebuildGraph, 300);
+            });
+
+            // 监听节点悬停，高亮相关连线（简化版：悬停时重新绘制，高亮相关节点）
+            nodeContainer.addEventListener('mouseenter', (e) => {
+                const target = e.target.closest('.tag-node');
+                if (!target) return;
+                // 简单悬停效果已经由CSS处理
+            }, true);
+
+            // 每5秒刷新一次布局，让星星和图谱保持活力（但不会频繁重绘）
+            let refreshCount = 0;
+            setInterval(() => {
+                refreshCount++;
+                if (refreshCount % 3 === 0) {
+                    // 偶尔微调节点位置，增加动态感（仅轻微扰动二级节点）
+                    if (Object.keys(positions).length > 0) {
+                        for (const word of secondaryRelated) {
+                            const p = positions[word];
+                            if (p) {
+                                p.x += (Math.random() - 0.5) * 2;
+                                p.y += (Math.random() - 0.5) * 2;
+                            }
+                        }
+                        drawGraph();
+                        renderNodes();
+                    }
+                }
+            }, 8000);
+
+        })();
+    </script>
+</body>
+</html>
