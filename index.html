@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Huang Yingying · Blog</title>
     <style>
-        /* 极简 + 轻量表情风格 + 粉红背景 + 随机星星 */
         * {
             margin: 0;
             padding: 0;
@@ -178,47 +177,6 @@
             border-bottom: 2px solid #b1526b;
         }
 
-        .quote-block {
-            background: #ffeef3;
-            padding: 18px 22px;
-            border-radius: 60px 20px 20px 60px;
-            margin: 20px 0 30px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            border-left: 4px solid #eaa6b9;
-        }
-
-        .quote-block .quote-icon {
-            font-size: 1.9rem;
-            line-height: 1;
-            opacity: 0.7;
-        }
-
-        .quote-block .quote-text {
-            font-size: 1.05rem;
-            color: #4c2e3a;
-            font-weight: 400;
-            font-style: italic;
-            letter-spacing: 0.2px;
-        }
-
-        .quote-block .quote-text strong {
-            font-style: normal;
-            color: #8f4b5e;
-        }
-
-        .quote-block .quote-author {
-            margin-left: auto;
-            font-size: 0.9rem;
-            color: #795c67;
-            background: #fadce6;
-            padding: 2px 14px;
-            border-radius: 40px;
-            white-space: nowrap;
-        }
-
         section {
             margin-bottom: 34px;
         }
@@ -302,10 +260,10 @@
             position: relative;
             background: #fcf4f7;
             border-radius: 24px;
-            padding: 16px;
+            padding: 20px;
             margin-top: 4px;
             border: 1px solid #fadce6;
-            min-height: 520px;
+            min-height: 580px;
             overflow: hidden;
         }
 
@@ -336,7 +294,6 @@
             border-radius: 40px;
         }
 
-        /* 响应式 */
         @media (max-width: 640px) {
             .page {
                 padding: 24px 16px;
@@ -369,16 +326,6 @@
             .contact-list li {
                 justify-content: center;
             }
-            .quote-block {
-                border-radius: 30px 16px 16px 30px;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 16px 18px;
-            }
-            .quote-block .quote-author {
-                margin-left: 0;
-                white-space: normal;
-            }
             ul.main-list li .date {
                 float: none;
                 display: inline-block;
@@ -391,7 +338,7 @@
             }
             .tech-graph-wrapper {
                 padding: 10px;
-                min-height: 380px;
+                min-height: 400px;
             }
         }
 
@@ -404,7 +351,7 @@
                 height: 110px;
             }
             .tech-graph-wrapper {
-                min-height: 320px;
+                min-height: 340px;
                 padding: 6px;
             }
         }
@@ -412,7 +359,6 @@
 </head>
 <body>
 
-    <!-- 随机星星容器 -->
     <div id="stars-container"></div>
 
     <div class="page">
@@ -441,7 +387,6 @@
             </div>
         </header>
 
-        <!-- 研究方向 -->
         <section>
             <h2>
                 <span class="emoji-badge">🔎</span> Research Interests
@@ -452,7 +397,6 @@
             </p>
         </section>
 
-        <!-- 教育经历 -->
         <section>
             <h2>
                 <span class="emoji-badge">🎓</span> Education
@@ -460,18 +404,17 @@
             <ul class="main-list">
                 <li>
                     <span class="date">📅 Sep. 2025 – Expected Jun. 2028</span>
-                    <strong>Wuhan University</strong> <span style="color:#6d4c59; font-size:0.9rem;"></span><br />
+                    <strong>Wuhan University</strong><br />
                     <span style="color:#5f3f4b;">M.S. in Cyberspace Security</span> · School of Cyber Science and Engineering
                 </li>
                 <li>
                     <span class="date">📅 Sep. 2021 – Jun. 2025</span>
-                    <strong>Anhui University</strong> <span style="color:#6d4c59; font-size:0.9rem;"></span><br />
+                    <strong>Anhui University</strong><br />
                     <span style="color:#5f3f4b;">B.S. in Information Security</span> · School of Computer Science and Technology
                 </li>
             </ul>
         </section>
 
-        <!-- 奖项与荣誉 -->
         <section>
             <h2>
                 <span class="emoji-badge">🏆</span> Awards & Honors
@@ -502,7 +445,6 @@
             </div>
         </section>
 
-        <!-- 底部名言 -->
         <div class="footer-note">
             <span>💬 “<em>Where theory meets practice, and knowledge serves the people.</em>”</span>
             <span>✨ 2026 · 夏</span>
@@ -558,13 +500,12 @@
                 }, 4000);
             }
 
-            // ========== 知识图谱 (纯Canvas实现) ==========
+            // ========== 知识图谱 (纯Canvas) ==========
             const wrapper = document.getElementById('graphWrapper');
             const canvas = document.getElementById('graphCanvas');
 
             if (!wrapper || !canvas) return;
 
-            // ---- 定义技术数据 ----
             const core = 'Trustworthy AI';
 
             const primaryRelated = new Set([
@@ -589,11 +530,8 @@
             ];
 
             const secondaryRelated = allTechs.filter(t => t !== core && !primaryRelated.has(t));
-
-            // 节点列表
             const nodes = [core, ...Array.from(primaryRelated), ...secondaryRelated];
 
-            // ---- 节点颜色 ----
             function getNodeColor(word, isCore) {
                 if (isCore) return { bg: '#c4768b', text: '#ffffff', border: '#b05f77' };
                 const colors = [
@@ -611,13 +549,12 @@
                 return colors[Math.abs(hash) % colors.length];
             }
 
-            // ---- 布局 ----
             let W, H;
             let positions = {};
 
             function getSize() {
                 const rect = wrapper.getBoundingClientRect();
-                return { w: rect.width - 20, h: Math.max(440, rect.height - 20) };
+                return { w: rect.width - 24, h: Math.max(500, rect.height - 24) };
             }
 
             function layoutNodes() {
@@ -626,8 +563,8 @@
                 H = h;
                 const cx = W / 2;
                 const cy = H / 2;
-                // 增大半径，让节点更分散
-                const radius = Math.min(W, H) * 0.44;
+                // 进一步增大半径，让节点更分散
+                const radius = Math.min(W, H) * 0.48;
 
                 positions = {};
                 positions[core] = { x: cx, y: cy };
@@ -635,28 +572,28 @@
                 const primaryList = Array.from(primaryRelated);
                 const secondaryList = secondaryRelated.slice();
 
-                // 一级节点 - 均匀分布在核心周围
+                // 一级节点
                 const pCount = primaryList.length;
                 primaryList.forEach((word, i) => {
                     const angle = (i / pCount) * 2 * Math.PI - Math.PI / 2;
-                    const r = radius * 0.58;
+                    const r = radius * 0.62;
                     positions[word] = {
                         x: cx + r * Math.cos(angle),
                         y: cy + r * Math.sin(angle)
                     };
                 });
 
-                // 二级节点 - 更分散的外层
+                // 二级节点 - 更分散
                 const used = Object.values(positions);
-                const outerR = radius * 0.92;
-                const minDist = 1600; // 增大最小距离，让节点更稀疏
+                const outerR = radius * 0.96;
+                const minDist = 2000; // 进一步增大最小距离
 
                 secondaryList.forEach((word) => {
                     let attempts = 0;
                     let x, y, ok;
                     do {
                         const angle = Math.random() * 2 * Math.PI;
-                        const r = outerR * (0.6 + Math.random() * 0.4);
+                        const r = outerR * (0.55 + Math.random() * 0.45);
                         x = cx + r * Math.cos(angle);
                         y = cy + r * Math.sin(angle);
                         ok = true;
@@ -669,23 +606,25 @@
                             }
                         }
                         attempts++;
-                        if (attempts > 200) break;
+                        if (attempts > 250) break;
                     } while (!ok);
                     positions[word] = { x, y };
                     used.push({ x, y });
                 });
 
-                // 微调 - 轻微扰动让布局更自然
+                // 微调
                 secondaryList.forEach((word) => {
                     const p = positions[word];
                     if (p) {
-                        p.x += (Math.random() - 0.5) * 20;
-                        p.y += (Math.random() - 0.5) * 20;
+                        p.x += (Math.random() - 0.5) * 25;
+                        p.y += (Math.random() - 0.5) * 25;
+                        const margin = 50;
+                        p.x = Math.max(margin, Math.min(W - margin, p.x));
+                        p.y = Math.max(margin, Math.min(H - margin, p.y));
                     }
                 });
             }
 
-            // ---- 绘制 ----
             function drawGraph() {
                 if (!canvas) return;
                 const ctx = canvas.getContext('2d');
@@ -704,7 +643,7 @@
                 const cp = positions[core];
                 if (!cp) return;
 
-                // ---- 绘制连线 ----
+                // ---- 连线 ----
                 const lines = [];
 
                 // 核心 -> 一级 (强)
@@ -713,18 +652,18 @@
                     if (p) lines.push({ from: cp, to: p, strength: 'strong' });
                 }
 
-                // 核心 -> 二级 (弱) - 部分连接，避免太密
+                // 核心 -> 二级 (部分)
                 const secondaryArr = secondaryRelated.slice();
                 const shuffledSec = secondaryArr.slice().sort(() => Math.random() - 0.5);
-                const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.45), 14);
+                const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.4), 12);
                 for (let i = 0; i < connectToCore && i < shuffledSec.length; i++) {
                     const p = positions[shuffledSec[i]];
                     if (p) lines.push({ from: cp, to: p, strength: 'weak' });
                 }
 
-                // 一级 -> 二级 (部分)
+                // 一级 -> 二级
                 const primaryArr = Array.from(primaryRelated);
-                for (let i = 0; i < Math.min(shuffledSec.length, 18); i++) {
+                for (let i = 0; i < Math.min(shuffledSec.length, 16); i++) {
                     const secWord = shuffledSec[i];
                     const secPos = positions[secWord];
                     if (!secPos) continue;
@@ -732,16 +671,15 @@
                     const numConn = 1 + Math.floor(Math.random() * 2);
                     for (let j = 0; j < Math.min(numConn, shuffledPrimary.length); j++) {
                         const primPos = positions[shuffledPrimary[j]];
-                        if (primPos && Math.random() > 0.3) {
+                        if (primPos && Math.random() > 0.35) {
                             lines.push({ from: primPos, to: secPos, strength: 'weak' });
                         }
                     }
                 }
 
-                // 绘制连线
                 for (const line of lines) {
                     const { from, to, strength } = line;
-                    const alpha = strength === 'strong' ? 0.35 : 0.10;
+                    const alpha = strength === 'strong' ? 0.3 : 0.08;
                     const lw = strength === 'strong' ? 2.5 : 1.0;
                     ctx.beginPath();
                     ctx.moveTo(from.x, from.y);
@@ -751,51 +689,50 @@
                     ctx.stroke();
                 }
 
-                // ---- 绘制核心光晕 ----
-                const grad = ctx.createRadialGradient(cp.x, cp.y, 2, cp.x, cp.y, 80);
+                // ---- 核心光晕 ----
+                const grad = ctx.createRadialGradient(cp.x, cp.y, 2, cp.x, cp.y, 90);
                 grad.addColorStop(0, 'rgba(196, 118, 139, 0.05)');
                 grad.addColorStop(1, 'rgba(196, 118, 139, 0)');
                 ctx.fillStyle = grad;
                 ctx.beginPath();
-                ctx.arc(cp.x, cp.y, 80, 0, 2 * Math.PI);
+                ctx.arc(cp.x, cp.y, 90, 0, 2 * Math.PI);
                 ctx.fill();
 
-                // ---- 绘制节点 ----
+                // ---- 绘制节点 (字体放大) ----
                 for (const word of nodes) {
                     const pos = positions[word];
                     if (!pos) continue;
                     const isCore = word === core;
                     const color = getNodeColor(word, isCore);
 
-                    // 字体大小 - 整体放大
                     let fontSize;
-                    if (isCore) fontSize = 18;
-                    else if (primaryRelated.has(word)) fontSize = 14;
+                    if (isCore) fontSize = 22;
+                    else if (primaryRelated.has(word)) fontSize = 17;
                     else {
                         const len = word.length;
-                        if (len <= 4) fontSize = 13;
-                        else if (len <= 8) fontSize = 12;
-                        else if (len <= 14) fontSize = 11;
-                        else fontSize = 9.5;
+                        if (len <= 4) fontSize = 15;
+                        else if (len <= 8) fontSize = 14;
+                        else if (len <= 14) fontSize = 12.5;
+                        else fontSize = 11;
                     }
 
                     ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
                     const metrics = ctx.measureText(word);
                     const tw = metrics.width;
-                    const th = fontSize * 1.35;
-                    const padX = isCore ? 22 : 16;
-                    const padY = isCore ? 12 : 8;
+                    const th = fontSize * 1.4;
+                    const padX = isCore ? 26 : 18;
+                    const padY = isCore ? 14 : 10;
                     const bw = tw + padX * 2;
                     const bh = th + padY * 2;
                     const rx = pos.x - bw / 2;
                     const ry = pos.y - bh / 2;
 
                     ctx.shadowColor = 'rgba(180, 80, 100, 0.08)';
-                    ctx.shadowBlur = 12;
+                    ctx.shadowBlur = 14;
                     ctx.shadowOffsetX = 0;
                     ctx.shadowOffsetY = 2;
 
-                    const r = isCore ? 32 : 22;
+                    const r = isCore ? 36 : 24;
                     ctx.beginPath();
                     ctx.moveTo(rx + r, ry);
                     ctx.lineTo(rx + bw - r, ry);
@@ -823,7 +760,6 @@
                 }
             }
 
-            // 扩展 CanvasRenderingContext2D.roundRect
             if (!CanvasRenderingContext2D.prototype.roundRect) {
                 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
                     if (r > w / 2) r = w / 2;
@@ -837,7 +773,6 @@
                 };
             }
 
-            // ---- 重建 ----
             let rebuildTimer;
 
             function rebuild() {
@@ -845,20 +780,17 @@
                 drawGraph();
             }
 
-            // ---- 响应式 ----
             window.addEventListener('resize', () => {
                 clearTimeout(rebuildTimer);
                 rebuildTimer = setTimeout(rebuild, 200);
             });
 
-            // 初始构建
             setTimeout(rebuild, 100);
-
             window.addEventListener('load', () => {
                 setTimeout(rebuild, 300);
             });
 
-            // ---- 微动效果 ----
+            // ---- 微动 ----
             let animFrame;
             let driftCount = 0;
 
@@ -869,8 +801,8 @@
                     for (const word of secondaryList) {
                         const p = positions[word];
                         if (p) {
-                            p.x += (Math.random() - 0.5) * 1.5;
-                            p.y += (Math.random() - 0.5) * 1.5;
+                            p.x += (Math.random() - 0.5) * 1.8;
+                            p.y += (Math.random() - 0.5) * 1.8;
                             const margin = 50;
                             p.x = Math.max(margin, Math.min(W - margin, p.x));
                             p.y = Math.max(margin, Math.min(H - margin, p.y));
