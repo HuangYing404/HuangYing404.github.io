@@ -255,7 +255,6 @@
             color: #7a4f5d;
         }
 
-        /* ===== Tech Stack 知识图谱 ===== */
         .tech-graph-wrapper {
             position: relative;
             background: #fcf4f7;
@@ -263,7 +262,7 @@
             padding: 20px;
             margin-top: 4px;
             border: 1px solid #fadce6;
-            min-height: 580px;
+            min-height: 620px;
             overflow: hidden;
         }
 
@@ -338,7 +337,7 @@
             }
             .tech-graph-wrapper {
                 padding: 10px;
-                min-height: 400px;
+                min-height: 420px;
             }
         }
 
@@ -351,7 +350,7 @@
                 height: 110px;
             }
             .tech-graph-wrapper {
-                min-height: 340px;
+                min-height: 360px;
                 padding: 6px;
             }
         }
@@ -435,7 +434,6 @@
             </ul>
         </section>
 
-        <!-- ===== Tech Stack 知识图谱 ===== -->
         <section>
             <h2>
                 <span class="emoji-badge">🛠️</span> Tech Stack
@@ -453,7 +451,7 @@
 
     <script>
         (function() {
-            // ========== 星星脚本 ==========
+            // ========== 星星 ==========
             const container = document.getElementById('stars-container');
             if (container) {
                 const starSymbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
@@ -500,7 +498,7 @@
                 }, 4000);
             }
 
-            // ========== 知识图谱 (纯Canvas) ==========
+            // ========== 知识图谱 ==========
             const wrapper = document.getElementById('graphWrapper');
             const canvas = document.getElementById('graphCanvas');
 
@@ -549,12 +547,39 @@
                 return colors[Math.abs(hash) % colors.length];
             }
 
+            function getNodeSize(word, isCore) {
+                if (isCore) return { fontSize: 22, padX: 26, padY: 14, radius: 36 };
+                if (primaryRelated.has(word)) return { fontSize: 17, padX: 20, padY: 11, radius: 26 };
+                const len = word.length;
+                if (len <= 4) return { fontSize: 15, padX: 18, padY: 10, radius: 24 };
+                if (len <= 8) return { fontSize: 14, padX: 16, padY: 9, radius: 22 };
+                if (len <= 14) return { fontSize: 12.5, padX: 16, padY: 9, radius: 22 };
+                return { fontSize: 11, padX: 14, padY: 8, radius: 20 };
+            }
+
             let W, H;
             let positions = {};
 
             function getSize() {
                 const rect = wrapper.getBoundingClientRect();
-                return { w: rect.width - 24, h: Math.max(500, rect.height - 24) };
+                return { w: rect.width - 24, h: Math.max(540, rect.height - 24) };
+            }
+
+            // 计算节点的半宽半高（用于碰撞检测）
+            function getNodeHalfSize(word, isCore) {
+                const size = getNodeSize(word, isCore);
+                const ctx = document.createElement('canvas').getContext('2d');
+                ctx.font = `600 ${size.fontSize}px -apple-system, sans-serif`;
+                const metrics = ctx.measureText(word);
+                const tw = metrics.width;
+                const th = size.fontSize * 1.4;
+                const bw = tw + size.padX * 2;
+                const bh = th + size.padY * 2;
+                return { hw: bw / 2 + 6, hh: bh / 2 + 6 };
+            }
+
+            function isOverlapping(x1, y1, hw1, hh1, x2, y2, hw2, hh2) {
+                return Math.abs(x1 - x2) < hw1 + hw2 && Math.abs(y1 - y2) < hh1 + hh2;
             }
 
             function layoutNodes() {
@@ -563,66 +588,169 @@
                 H = h;
                 const cx = W / 2;
                 const cy = H / 2;
-                // 进一步增大半径，让节点更分散
-                const radius = Math.min(W, H) * 0.48;
+                const radius = Math.min(W, H) * 0.46;
 
                 positions = {};
+                const placed = [];
+
+                // 核心
                 positions[core] = { x: cx, y: cy };
+                const coreHalf = getNodeHalfSize(core, true);
+                placed.push({ x: cx, y: cy, hw: coreHalf.hw, hh: coreHalf.hh, word: core });
 
+                // 一级节点 - 均匀分布在核心周围
                 const primaryList = Array.from(primaryRelated);
-                const secondaryList = secondaryRelated.slice();
-
-                // 一级节点
                 const pCount = primaryList.length;
+                const pRadius = radius * 0.60;
+
                 primaryList.forEach((word, i) => {
                     const angle = (i / pCount) * 2 * Math.PI - Math.PI / 2;
-                    const r = radius * 0.62;
+                    let x = cx + pRadius * Math.cos(angle);
+                    let y = cy + pRadius * Math.sin(angle);
+                    const half = getNodeHalfSize(word, false);
+
+                    // 微调避免与核心重叠
+                    let attempts = 0;
+                    while (attempts < 30) {
+                        let overlap = false;
+                        for (const p of placed) {
+                            if (isOverlapping(x, y, half.hw, half.hh, p.x, p.y, p.hw, p.hh)) {
+                                overlap = true;
+                                break;
+                            }
+                        }
+                        if (!overlap) break;
+                        // 向外推
+                        const dx = x - cx;
+                        const dy = y - cy;
+                        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        x += (dx / dist) * 4;
+                        y += (dy / dist) * 4;
+                        attempts++;
+                    }
+
+                    positions[word] = { x, y };
+                    placed.push({ x, y, hw: half.hw, hh: half.hh, word });
+                });
+
+                // 二级节点 - 使用排斥力布局
+                const secondaryList = secondaryRelated.slice();
+                const outerR = radius * 0.92;
+
+                // 初始化二级节点位置
+                secondaryList.forEach((word) => {
+                    const angle = Math.random() * 2 * Math.PI;
+                    const r = outerR * (0.5 + Math.random() * 0.5);
                     positions[word] = {
                         x: cx + r * Math.cos(angle),
                         y: cy + r * Math.sin(angle)
                     };
                 });
 
-                // 二级节点 - 更分散
-                const used = Object.values(positions);
-                const outerR = radius * 0.96;
-                const minDist = 2000; // 进一步增大最小距离
+                // 迭代优化：使用力导向排斥
+                for (let iter = 0; iter < 120; iter++) {
+                    const allPlaced = [...placed];
+                    const secondWords = secondaryList.slice();
 
-                secondaryList.forEach((word) => {
-                    let attempts = 0;
-                    let x, y, ok;
-                    do {
-                        const angle = Math.random() * 2 * Math.PI;
-                        const r = outerR * (0.55 + Math.random() * 0.45);
-                        x = cx + r * Math.cos(angle);
-                        y = cy + r * Math.sin(angle);
-                        ok = true;
-                        for (const p of used) {
-                            const dx = p.x - x;
-                            const dy = p.y - y;
-                            if (dx * dx + dy * dy < minDist) {
-                                ok = false;
-                                break;
+                    for (const word of secondWords) {
+                        const p = positions[word];
+                        if (!p) continue;
+                        const half = getNodeHalfSize(word, false);
+
+                        let dx = 0,
+                            dy = 0;
+
+                        // 与所有已放置节点排斥
+                        for (const other of allPlaced) {
+                            const deltaX = p.x - other.x;
+                            const deltaY = p.y - other.y;
+                            const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                            const minDist = half.hw + other.hw;
+                            const minDistY = half.hh + other.hh;
+                            if (dist < minDist && dist > 0.1) {
+                                const force = (minDist - dist) / dist * 0.8;
+                                dx += deltaX * force;
+                                dy += deltaY * force;
+                            }
+                            if (Math.abs(deltaY) < minDistY && Math.abs(deltaX) < minDist) {
+                                const forceX = (minDist - Math.abs(deltaX)) / (Math.abs(deltaX) + 0.1) * 0.3;
+                                const forceY = (minDistY - Math.abs(deltaY)) / (Math.abs(deltaY) + 0.1) * 0.3;
+                                if (deltaX > 0) dx += forceX;
+                                else dx -= forceX;
+                                if (deltaY > 0) dy += forceY;
+                                else dy -= forceY;
                             }
                         }
-                        attempts++;
-                        if (attempts > 250) break;
-                    } while (!ok);
-                    positions[word] = { x, y };
-                    used.push({ x, y });
-                });
 
-                // 微调
-                secondaryList.forEach((word) => {
-                    const p = positions[word];
-                    if (p) {
-                        p.x += (Math.random() - 0.5) * 25;
-                        p.y += (Math.random() - 0.5) * 25;
+                        // 与所有二级节点排斥
+                        for (const otherWord of secondWords) {
+                            if (otherWord === word) continue;
+                            const otherP = positions[otherWord];
+                            if (!otherP) continue;
+                            const otherHalf = getNodeHalfSize(otherWord, false);
+                            const deltaX = p.x - otherP.x;
+                            const deltaY = p.y - otherP.y;
+                            const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                            const minDist = half.hw + otherHalf.hw;
+                            if (dist < minDist && dist > 0.1) {
+                                const force = (minDist - dist) / dist * 0.5;
+                                dx += deltaX * force;
+                                dy += deltaY * force;
+                            }
+                        }
+
+                        // 向中心轻微吸引，防止跑太远
+                        const toCenterX = cx - p.x;
+                        const toCenterY = cy - p.y;
+                        const centerDist = Math.sqrt(toCenterX * toCenterX + toCenterY * toCenterY);
+                        if (centerDist > outerR * 1.1) {
+                            dx += toCenterX * 0.02;
+                            dy += toCenterY * 0.02;
+                        }
+
+                        // 应用位移
+                        const maxStep = 3;
+                        const moveX = Math.max(-maxStep, Math.min(maxStep, dx));
+                        const moveY = Math.max(-maxStep, Math.min(maxStep, dy));
+                        p.x += moveX;
+                        p.y += moveY;
+
+                        // 边界约束
                         const margin = 50;
                         p.x = Math.max(margin, Math.min(W - margin, p.x));
                         p.y = Math.max(margin, Math.min(H - margin, p.y));
                     }
-                });
+
+                    // 将二级节点加入已放置列表（用于后续迭代）
+                    if (iter % 5 === 0) {
+                        placed.length = 0;
+                        placed.push({ x: cx, y: cy, hw: coreHalf.hw, hh: coreHalf.hh, word: core });
+                        for (const w of primaryList) {
+                            const p = positions[w];
+                            if (p) {
+                                const h = getNodeHalfSize(w, false);
+                                placed.push({ x: p.x, y: p.y, hw: h.hw, hh: h.hh, word: w });
+                            }
+                        }
+                        for (const w of secondaryList) {
+                            const p = positions[w];
+                            if (p) {
+                                const h = getNodeHalfSize(w, false);
+                                placed.push({ x: p.x, y: p.y, hw: h.hw, hh: h.hh, word: w });
+                            }
+                        }
+                    }
+                }
+
+                // 最终边界约束
+                const margin = 50;
+                for (const word of nodes) {
+                    const p = positions[word];
+                    if (p) {
+                        p.x = Math.max(margin, Math.min(W - margin, p.x));
+                        p.y = Math.max(margin, Math.min(H - margin, p.y));
+                    }
+                }
             }
 
             function drawGraph() {
@@ -645,25 +773,21 @@
 
                 // ---- 连线 ----
                 const lines = [];
-
-                // 核心 -> 一级 (强)
                 for (const word of primaryRelated) {
                     const p = positions[word];
                     if (p) lines.push({ from: cp, to: p, strength: 'strong' });
                 }
 
-                // 核心 -> 二级 (部分)
                 const secondaryArr = secondaryRelated.slice();
                 const shuffledSec = secondaryArr.slice().sort(() => Math.random() - 0.5);
-                const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.4), 12);
+                const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.35), 10);
                 for (let i = 0; i < connectToCore && i < shuffledSec.length; i++) {
                     const p = positions[shuffledSec[i]];
                     if (p) lines.push({ from: cp, to: p, strength: 'weak' });
                 }
 
-                // 一级 -> 二级
                 const primaryArr = Array.from(primaryRelated);
-                for (let i = 0; i < Math.min(shuffledSec.length, 16); i++) {
+                for (let i = 0; i < Math.min(shuffledSec.length, 14); i++) {
                     const secWord = shuffledSec[i];
                     const secPos = positions[secWord];
                     if (!secPos) continue;
@@ -671,7 +795,7 @@
                     const numConn = 1 + Math.floor(Math.random() * 2);
                     for (let j = 0; j < Math.min(numConn, shuffledPrimary.length); j++) {
                         const primPos = positions[shuffledPrimary[j]];
-                        if (primPos && Math.random() > 0.35) {
+                        if (primPos && Math.random() > 0.4) {
                             lines.push({ from: primPos, to: secPos, strength: 'weak' });
                         }
                     }
@@ -698,32 +822,20 @@
                 ctx.arc(cp.x, cp.y, 90, 0, 2 * Math.PI);
                 ctx.fill();
 
-                // ---- 绘制节点 (字体放大) ----
+                // ---- 绘制节点 ----
                 for (const word of nodes) {
                     const pos = positions[word];
                     if (!pos) continue;
                     const isCore = word === core;
                     const color = getNodeColor(word, isCore);
+                    const size = getNodeSize(word, isCore);
 
-                    let fontSize;
-                    if (isCore) fontSize = 22;
-                    else if (primaryRelated.has(word)) fontSize = 17;
-                    else {
-                        const len = word.length;
-                        if (len <= 4) fontSize = 15;
-                        else if (len <= 8) fontSize = 14;
-                        else if (len <= 14) fontSize = 12.5;
-                        else fontSize = 11;
-                    }
-
-                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
+                    ctx.font = `600 ${size.fontSize}px -apple-system, sans-serif`;
                     const metrics = ctx.measureText(word);
                     const tw = metrics.width;
-                    const th = fontSize * 1.4;
-                    const padX = isCore ? 26 : 18;
-                    const padY = isCore ? 14 : 10;
-                    const bw = tw + padX * 2;
-                    const bh = th + padY * 2;
+                    const th = size.fontSize * 1.4;
+                    const bw = tw + size.padX * 2;
+                    const bh = th + size.padY * 2;
                     const rx = pos.x - bw / 2;
                     const ry = pos.y - bh / 2;
 
@@ -732,7 +844,7 @@
                     ctx.shadowOffsetX = 0;
                     ctx.shadowOffsetY = 2;
 
-                    const r = isCore ? 36 : 24;
+                    const r = size.radius;
                     ctx.beginPath();
                     ctx.moveTo(rx + r, ry);
                     ctx.lineTo(rx + bw - r, ry);
@@ -753,7 +865,7 @@
                     ctx.stroke();
 
                     ctx.fillStyle = color.text;
-                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
+                    ctx.font = `600 ${size.fontSize}px -apple-system, sans-serif`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(word, pos.x, pos.y + 1);
@@ -796,13 +908,13 @@
 
             function driftLoop() {
                 driftCount++;
-                if (driftCount % 6 === 0 && Object.keys(positions).length > 0) {
+                if (driftCount % 8 === 0 && Object.keys(positions).length > 0) {
                     const secondaryList = secondaryRelated.slice();
                     for (const word of secondaryList) {
                         const p = positions[word];
                         if (p) {
-                            p.x += (Math.random() - 0.5) * 1.8;
-                            p.y += (Math.random() - 0.5) * 1.8;
+                            p.x += (Math.random() - 0.5) * 1.2;
+                            p.y += (Math.random() - 0.5) * 1.2;
                             const margin = 50;
                             p.x = Math.max(margin, Math.min(W - margin, p.x));
                             p.y = Math.max(margin, Math.min(H - margin, p.y));
