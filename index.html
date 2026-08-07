@@ -22,16 +22,15 @@
             background-color: #fafafa;
         }
 
-        /* 卡片式容器，柔和阴影 */
+        /* 卡片式容器 */
         .page {
             background: white;
             border-radius: 28px;
             padding: 40px 36px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
-            transition: all 0.1s ease;
         }
 
-        /* header：flex 头像在右 */
+        /* header：头像在左，文字在右 */
         header {
             display: flex;
             justify-content: space-between;
@@ -40,11 +39,33 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #eaeef2;
             flex-wrap: wrap;
+            flex-direction: row; 
         }
 
+        /* 头像容器 — 左侧 */
+        .header-photo {
+            flex-shrink: 0;
+            margin-right: 24px;
+        }
+
+        .header-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #eef3f8;
+            box-shadow: 0 6px 14px rgba(0, 20, 30, 0.06);
+            transition: transform 0.2s ease;
+            background: #f0f4fa;
+        }
+
+        .header-photo img:hover {
+            transform: scale(1.02);
+        }
+
+        /* 右侧文字 */
         .header-text {
             flex: 1;
-            padding-right: 20px;
             min-width: 200px;
         }
 
@@ -112,27 +133,7 @@
             border-bottom: 2px solid #1f6d9e;
         }
 
-        .header-photo {
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .header-photo img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #eef3f8;
-            box-shadow: 0 6px 14px rgba(0, 20, 30, 0.06);
-            transition: transform 0.2s ease;
-            background: #f0f4fa;
-        }
-
-        .header-photo img:hover {
-            transform: scale(1.02);
-        }
-
-        /* 名言区域 — 加入表情符号 */
+        /* 名言区块 — 英文版本 */
         .quote-block {
             background: #f6f9fe;
             padding: 18px 22px;
@@ -254,7 +255,7 @@
             color: #2f577a;
         }
 
-        /* 响应式 */
+        /* 响应式：手机端头像在上，文字在下 (头像左 -> 变为上) */
         @media (max-width: 640px) {
             .page {
                 padding: 24px 16px;
@@ -262,14 +263,23 @@
             }
 
             header {
-                flex-direction: column-reverse;
+                flex-direction: column-reverse;  /* 头像在上，文字在下 */
                 align-items: center;
                 text-align: center;
             }
 
+            .header-photo {
+                margin-right: 0;
+                margin-bottom: 16px;
+            }
+
+            .header-photo img {
+                width: 130px;
+                height: 130px;
+            }
+
             .header-text {
                 padding-right: 0;
-                margin-top: 18px;
                 width: 100%;
             }
 
@@ -284,11 +294,6 @@
 
             .contact-list li {
                 justify-content: center;
-            }
-
-            .header-photo img {
-                width: 130px;
-                height: 130px;
             }
 
             .quote-block {
@@ -330,7 +335,16 @@
 <body>
     <div class="page">
         <header>
-            <!-- 左侧：姓名 + 联系方式 -->
+            <!-- 左侧：头像 (现在是左边) -->
+            <div class="header-photo">
+                <!-- 使用 SVG 占位头像，可替换为真实图片 -->
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='72' fill='%23d9e5f0'/%3E%3Ctext x='75' y='85' font-size='42' text-anchor='middle' fill='%2334546b' font-family='system-ui, sans-serif'%3E🌙%3C/text%3E%3C/svg%3E"
+                     alt="Huang Yingying avatar"
+                     title="Huang Yingying ✨">
+                <!-- 将 src 替换为您的头像图片，例如 avatar.jpg -->
+            </div>
+
+            <!-- 右侧：姓名 + 联系方式 -->
             <div class="header-text">
                 <h1>
                     Huang Yingying
@@ -352,24 +366,15 @@
                     <li><span>📍</span> <span style="color:#4b637a;">Wuhan · China</span></li>
                 </ul>
             </div>
-
-            <!-- 右侧：头像 -->
-            <div class="header-photo">
-                <!-- 使用有效头像占位，若没有 avatar.jpg 则显示文字圆，但保留 img 以便替换 -->
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Ccircle cx='75' cy='75' r='72' fill='%23d9e5f0'/%3E%3Ctext x='75' y='85' font-size='42' text-anchor='middle' fill='%2334546b' font-family='system-ui, sans-serif'%3E🌙%3C/text%3E%3C/svg%3E"
-                     alt="Huang Yingying avatar"
-                     title="Huang Yingying ✨">
-                <!-- 提示：将上方 src 替换为您的真实头像图片，例如 avatar.jpg -->
-            </div>
         </header>
 
-        <!-- ★ 三毛名言 + 表情符号 ★ -->
+        <!-- ★ 三毛名言 · 英文版本 ★ -->
         <div class="quote-block">
             <span class="quote-icon">📖</span>
             <span class="quote-text">
-                “<strong>一个人至少拥有一个梦想，有一个理由去坚强。</strong>”
+                “<strong>A person should have at least one dream, and a reason to be strong.</strong>”
             </span>
-            <span class="quote-author">—— 三毛 🌾</span>
+            <span class="quote-author">— Sanmao 🌾</span>
         </div>
 
         <!-- 研究方向 -->
@@ -403,7 +408,7 @@
             </ul>
         </section>
 
-        <!-- 奖项与荣誉 (加入表情) -->
+        <!-- 奖项与荣誉 -->
         <section>
             <h2>
                 <span class="emoji-badge">🏆</span> Awards & Honors
@@ -424,9 +429,9 @@
             </ul>
         </section>
 
-        <!-- 一个趣味小尾巴，也带表情 -->
+        <!-- 底部第二句名言 · 英文 -->
         <div style="margin-top: 28px; border-top: 1px solid #e5ebf0; padding-top: 16px; font-size:0.9rem; color:#5d7388; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-            <span>💬 “心若没有栖息的地方，到哪里都是在流浪。” —— 三毛</span>
+            <span>💬 “<em>If the heart has no place to rest, it wanders everywhere.</em>” — Sanmao</span>
             <span style="background:#e7eef6; padding:2px 14px; border-radius:40px;">✨ 2026 · 夏</span>
         </div>
     </div>
