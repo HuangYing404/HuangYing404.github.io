@@ -1,2 +1,2 @@
 # HuangYing404.github.io
-this is my blog
+Hello, this is my blog.
