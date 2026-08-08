@@ -470,6 +470,97 @@
             margin-right: 8px;
         }
 
+        /* ===== 项目卡片 ===== */
+        .project-list {
+            padding-left: 6px;
+        }
+        .project-item {
+            background: var(--bg-section);
+            border-radius: 18px;
+            padding: 18px 22px;
+            margin-bottom: 18px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(180,80,100,0.04);
+            transition: box-shadow 0.2s ease;
+        }
+        .project-item:hover {
+            box-shadow: 0 6px 18px rgba(180,80,100,0.08);
+        }
+        .project-item .project-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+        }
+        .project-item .project-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        .project-item .project-date {
+            font-size: 0.8rem;
+            background: var(--bg-badge);
+            padding: 0 14px;
+            border-radius: 30px;
+            color: var(--text-light);
+            font-weight: 450;
+        }
+        .project-item .project-desc {
+            color: var(--text-body);
+            font-size: 0.95rem;
+            margin: 8px 0 4px 0;
+        }
+        .project-item .project-award {
+            display: inline-block;
+            margin-top: 8px;
+            background: var(--bg-tag);
+            color: var(--accent-dark);
+            font-size: 0.8rem;
+            padding: 0 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            border: 1px solid var(--bg-tech-border);
+        }
+
+        /* ===== 致谢区域 ===== */
+        .acknowledgement {
+            margin-top: 8px;
+            padding: 18px 22px;
+            background: var(--bg-section);
+            border-radius: 18px;
+            border-left: 4px solid var(--accent-light);
+            font-size: 0.95rem;
+            color: var(--text-body);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .acknowledgement .ack-text {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 16px;
+        }
+        .acknowledgement .ack-text .uni {
+            font-weight: 600;
+            color: var(--accent-dark);
+            background: var(--bg-tag);
+            padding: 2px 14px;
+            border-radius: 40px;
+        }
+        .acknowledgement .ack-date {
+            font-weight: 450;
+            color: var(--text-light);
+            background: var(--bg-badge);
+            padding: 2px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 640px) {
             .page {
@@ -519,6 +610,19 @@
             }
             .research-box {
                 max-width: 100%;
+            }
+            .project-item .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .acknowledgement {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .acknowledgement .ack-date {
+                align-self: flex-start;
             }
         }
 
@@ -635,6 +739,60 @@
             </ul>
         </section>
 
+        <!-- ===== 项目列表 ===== -->
+        <section>
+            <h2>
+                <span class="emoji-badge">📁</span> Selected Projects
+            </h2>
+            <div class="project-list">
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <span class="project-title">🔬 Local Community Detection in Hypergraphs</span>
+                        <span class="project-date">2022 – 2025</span>
+                    </div>
+                    <div class="project-desc">
+                        Modeled higher-order relationships among multiple entities using <strong>hypergraphs</strong> and investigated local community detection methods to improve structural pattern identification and potential collaboration discovery in complex networks.
+                    </div>
+                    <div class="project-award">🏅 Outstanding Project of Anhui Provincial College Student Innovation and Entrepreneurship Training Program</div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <span class="project-title">🌐 SDN-Based Intrusion Detection System</span>
+                        <span class="project-date">2022 – 2024</span>
+                    </div>
+                    <div class="project-desc">
+                        Leveraged the centralized control and global traffic visibility of <strong>Software-Defined Networking (SDN)</strong> to enable network traffic monitoring, anomalous behavior detection, and coordinated security policy enforcement, improving the detection of and response to network attacks.
+                    </div>
+                    <div class="project-award">🎖️ Merit Award in Project Competition of the 16th National College Student Information Security Contest</div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <span class="project-title">🔐 Zero-Knowledge-Proof-Based Trusted Image Editing & Verification</span>
+                        <span class="project-date">2025 – 2026</span>
+                    </div>
+                    <div class="project-desc">
+                        Introduced <strong>GPU-based parallel acceleration</strong> to address the high computational overhead of CPU-based proof generation and verification for high-resolution images and complex editing scenarios, optimizing core computations through massive GPU parallelism. Achieved approximately a <strong>10× overall performance improvement</strong> compared with the CPU implementation.
+                    </div>
+                    <div class="project-award">🏆 National First Prize in the 10th National Cryptography Technology Competition</div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <span class="project-title">⛓️ Blockchain & ShangMi-Based Fast Video Verification & Traceability</span>
+                        <span class="project-date">2025 – 2026</span>
+                    </div>
+                    <div class="project-desc">
+                        Designed a fast verification mechanism for encrypted video data to address the storage and verification overhead associated with directly storing large-scale video data on-chain, improving verification efficiency while reducing blockchain storage costs.
+                    </div>
+                    <div class="project-award">🥇 First Prize at Department Level, Wuhan University’s 13th “Ziqiang Cup” College Student Entrepreneurship Plan Competition</div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- ===== Tech Stack 知识图谱 ===== -->
         <section>
             <h2>
@@ -644,6 +802,17 @@
                 <canvas id="graphCanvas"></canvas>
             </div>
         </section>
+
+        <!-- ===== 致谢区域（Root） ===== -->
+        <div class="acknowledgement">
+            <div class="ack-text">
+                <span>🙏 With deepest gratitude to</span>
+                <span class="uni">🏛️ Anhui University</span>
+                <span class="uni">🏛️ Wuhan University</span>
+                <span style="opacity:0.6; margin-left:4px;">for nurturing and support</span>
+            </div>
+            <span class="ack-date">📅 Updated: 2026 · 08 · 08</span>
+        </div>
 
         <div class="footer-note">
             <span>💬 “<em>Where theory meets practice, and knowledge serves the people.</em>”</span>
@@ -661,17 +830,14 @@
                 const icon = toggle.querySelector('.theme-icon');
                 const html = document.documentElement;
 
-                // 检测系统偏好
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
                 const savedTheme = localStorage.getItem('theme');
                 
-                // 确定初始主题
                 let theme = savedTheme;
                 if (!theme) {
                     theme = prefersDark.matches ? 'dark' : 'light';
                 }
                 
-                // 应用主题
                 function setTheme(themeName) {
                     if (themeName === 'dark') {
                         html.setAttribute('data-theme', 'dark');
@@ -685,21 +851,18 @@
                 
                 setTheme(theme);
                 
-                // 切换主题
                 toggle.addEventListener('click', () => {
                     const current = html.getAttribute('data-theme');
                     const newTheme = current === 'dark' ? 'light' : 'dark';
                     setTheme(newTheme);
                 });
                 
-                // 监听系统主题变化（仅当用户没有手动保存偏好时）
                 prefersDark.addEventListener('change', (e) => {
                     if (!localStorage.getItem('theme')) {
                         setTheme(e.matches ? 'dark' : 'light');
                     }
                 });
 
-                // 键盘快捷键: Ctrl + Shift + D
                 document.addEventListener('keydown', (e) => {
                     if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
                         e.preventDefault();
@@ -826,7 +989,6 @@
                 const primaryList = Array.from(primaryRelated);
                 const secondaryList = secondaryRelated.slice();
 
-                // 一级节点
                 const pCount = primaryList.length;
                 primaryList.forEach((word, i) => {
                     const angle = (i / pCount) * 2 * Math.PI - Math.PI / 2;
@@ -837,7 +999,6 @@
                     };
                 });
 
-                // 二级节点 - 更分散
                 const used = Object.values(positions);
                 const outerR = radius * 0.96;
                 const minDist = 2000;
@@ -866,7 +1027,6 @@
                     used.push({ x, y });
                 });
 
-                // 微调
                 secondaryList.forEach((word) => {
                     const p = positions[word];
                     if (p) {
@@ -897,16 +1057,13 @@
                 const cp = positions[core];
                 if (!cp) return;
 
-                // ---- 连线 ----
                 const lines = [];
 
-                // 核心 -> 一级 (强)
                 for (const word of primaryRelated) {
                     const p = positions[word];
                     if (p) lines.push({ from: cp, to: p, strength: 'strong' });
                 }
 
-                // 核心 -> 二级 (部分)
                 const secondaryArr = secondaryRelated.slice();
                 const shuffledSec = secondaryArr.slice().sort(() => Math.random() - 0.5);
                 const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.4), 12);
@@ -915,7 +1072,6 @@
                     if (p) lines.push({ from: cp, to: p, strength: 'weak' });
                 }
 
-                // 一级 -> 二级
                 const primaryArr = Array.from(primaryRelated);
                 for (let i = 0; i < Math.min(shuffledSec.length, 16); i++) {
                     const secWord = shuffledSec[i];
@@ -943,7 +1099,6 @@
                     ctx.stroke();
                 }
 
-                // ---- 核心光晕 ----
                 const grad = ctx.createRadialGradient(cp.x, cp.y, 2, cp.x, cp.y, 90);
                 grad.addColorStop(0, 'rgba(196, 118, 139, 0.05)');
                 grad.addColorStop(1, 'rgba(196, 118, 139, 0)');
@@ -952,7 +1107,6 @@
                 ctx.arc(cp.x, cp.y, 90, 0, 2 * Math.PI);
                 ctx.fill();
 
-                // ---- 绘制节点 ----
                 for (const word of nodes) {
                     const pos = positions[word];
                     if (!pos) continue;
@@ -1044,7 +1198,6 @@
                 setTimeout(rebuild, 300);
             });
 
-            // ---- 微动 ----
             let animFrame;
             let driftCount = 0;
 
@@ -1075,10 +1228,7 @@
                 if (animFrame) cancelAnimationFrame(animFrame);
             });
 
-            // ========== 监听主题变化刷新图谱 ==========
             const observer = new MutationObserver(() => {
-                // 图谱颜色不依赖CSS变量，但重新绘制可以更新视觉一致性
-                // 这里简单触发重绘
                 if (Object.keys(positions).length > 0) {
                     drawGraph();
                 }
