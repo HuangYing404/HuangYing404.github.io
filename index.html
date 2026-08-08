@@ -5,18 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Huang Yingying · Blog</title>
     <style>
+        /* ===== CSS 变量 - 主题系统 ===== */
+        :root {
+            /* 亮色主题（默认） */
+            --bg-primary: #ffe4ec;
+            --bg-secondary: #ffd9e6;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-border: rgba(255, 220, 230, 0.5);
+            --bg-section: #fff5f8;
+            --bg-tag: #ffe4ec;
+            --bg-badge: #ffdee8;
+            --bg-tech: #fcf4f7;
+            --bg-tech-border: #fadce6;
+            
+            --text-primary: #1e1e2f;
+            --text-secondary: #3d1f2b;
+            --text-muted: #5d3f4b;
+            --text-light: #a06b7a;
+            --text-dark: #421f2d;
+            --text-body: #3d2833;
+            --text-footer: #775a66;
+            
+            --accent: #c4768b;
+            --accent-dark: #b05f77;
+            --accent-light: #b1526b;
+            --accent-border: #fadce6;
+            --accent-dotted: #e5b6c4;
+            --accent-shadow: rgba(180, 80, 100, 0.12);
+            
+            --shadow-card: 0 12px 30px rgba(180, 80, 100, 0.12);
+            --shadow-img: 0 6px 14px rgba(200, 100, 130, 0.15);
+            
+            --divider: #fadce6;
+            --divider-dashed: #f2d7e0;
+            --border-light: #fadce6;
+            
+            --star-color: #fff9c4;
+            --star-shadow: rgba(255, 215, 0, 0.8);
+            --star-drop: #ffb3c6;
+            
+            --transition-speed: 0.4s;
+        }
+
+        /* ===== 暗色主题 ===== */
+        [data-theme="dark"] {
+            --bg-primary: #1a0e12;
+            --bg-secondary: #2a171e;
+            --bg-card: rgba(30, 18, 24, 0.92);
+            --bg-card-border: rgba(80, 50, 60, 0.5);
+            --bg-section: #2a1a22;
+            --bg-tag: #3d2230;
+            --bg-badge: #3d2230;
+            --bg-tech: #22161c;
+            --bg-tech-border: #3d2a32;
+            
+            --text-primary: #f0e0e6;
+            --text-secondary: #f0d8e0;
+            --text-muted: #c9a8b6;
+            --text-light: #a06b7a;
+            --text-dark: #f0d8e0;
+            --text-body: #e6d0d8;
+            --text-footer: #b898a6;
+            
+            --accent: #d48aa0;
+            --accent-dark: #c4768b;
+            --accent-light: #e0a0b6;
+            --accent-border: #4d2a38;
+            --accent-dotted: #6d3a50;
+            --accent-shadow: rgba(180, 80, 100, 0.08);
+            
+            --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.4);
+            --shadow-img: 0 6px 14px rgba(0, 0, 0, 0.3);
+            
+            --divider: #3d2a32;
+            --divider-dashed: #3d2a32;
+            --border-light: #3d2a32;
+            
+            --star-color: #ffeaa0;
+            --star-shadow: rgba(255, 215, 0, 0.5);
+            --star-drop: #8a4a5a;
+        }
+
+        /* ===== 平滑过渡 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background var(--transition-speed) ease,
+                        color var(--transition-speed) ease,
+                        border-color var(--transition-speed) ease,
+                        box-shadow var(--transition-speed) ease,
+                        background-color var(--transition-speed) ease;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            color: #1e1e2f;
-            background-color: #ffe4ec;
-            background-image: radial-gradient(circle at 20% 30%, #ffd9e6 0%, #ffe4ec 70%);
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            background-image: radial-gradient(circle at 20% 30%, var(--bg-secondary) 0%, var(--bg-primary) 70%);
             min-height: 100vh;
             padding: 0 12px;
             width: 98%;
@@ -39,14 +126,15 @@
 
         .star {
             position: absolute;
-            color: #fff9c4;
+            color: var(--star-color);
             font-size: 1.2rem;
             opacity: 0.9;
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+            text-shadow: 0 0 12px var(--star-shadow);
             animation: fall linear infinite;
             pointer-events: none;
             will-change: transform, opacity;
-            filter: drop-shadow(0 0 6px #ffb3c6);
+            filter: drop-shadow(0 0 6px var(--star-drop));
+            transition: color 0.6s ease, text-shadow 0.6s ease, filter 0.6s ease;
         }
 
         @keyframes fall {
@@ -67,12 +155,12 @@
         }
 
         .page {
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--bg-card);
             backdrop-filter: blur(2px);
             border-radius: 28px;
             padding: 40px 36px;
-            box-shadow: 0 12px 30px rgba(180, 80, 100, 0.12);
-            border: 1px solid rgba(255, 220, 230, 0.5);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--bg-card-border);
             position: relative;
             z-index: 10;
         }
@@ -83,7 +171,7 @@
             align-items: flex-start;
             margin-bottom: 32px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #fadce6;
+            border-bottom: 1px solid var(--divider);
             flex-wrap: wrap;
             flex-direction: row;
         }
@@ -98,9 +186,9 @@
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #ffd9e4;
-            box-shadow: 0 6px 14px rgba(200, 100, 130, 0.15);
-            transition: transform 0.2s ease;
+            border: 3px solid var(--bg-badge);
+            box-shadow: var(--shadow-img);
+            transition: transform 0.2s ease, border-color var(--transition-speed) ease;
             background: #ffeef2;
         }
 
@@ -117,7 +205,7 @@
             margin: 0 0 6px 0;
             font-size: 2.4em;
             font-weight: 600;
-            color: #3d1f2b;
+            color: var(--text-secondary);
             letter-spacing: -0.3px;
             display: flex;
             align-items: center;
@@ -128,9 +216,9 @@
         .header-text h1 small {
             font-size: 0.55rem;
             font-weight: 400;
-            color: #a06b7a;
+            color: var(--text-light);
             margin-left: 6px;
-            background: #ffdee8;
+            background: var(--bg-badge);
             padding: 0 10px;
             border-radius: 40px;
             letter-spacing: 0.2px;
@@ -138,7 +226,7 @@
 
         .title {
             font-size: 1.1em;
-            color: #5d3f4b;
+            color: var(--text-muted);
             margin-bottom: 16px;
             display: flex;
             align-items: center;
@@ -151,7 +239,7 @@
             padding: 0;
             margin: 0;
             font-size: 0.96em;
-            color: #3d2a32;
+            color: var(--text-body);
         }
 
         .contact-list li {
@@ -164,17 +252,17 @@
 
         .contact-list li strong {
             font-weight: 600;
-            color: #482e39;
+            color: var(--text-secondary);
         }
 
         .contact-list a {
-            color: #b1526b;
+            color: var(--accent-light);
             text-decoration: none;
-            border-bottom: 1px dotted #e5b6c4;
+            border-bottom: 1px dotted var(--accent-dotted);
         }
 
         .contact-list a:hover {
-            border-bottom: 2px solid #b1526b;
+            border-bottom: 2px solid var(--accent-light);
         }
 
         section {
@@ -184,8 +272,8 @@
         h2 {
             font-size: 1.4em;
             font-weight: 600;
-            color: #3d202c;
-            border-left: 5px solid #c4768b;
+            color: var(--text-secondary);
+            border-left: 5px solid var(--accent);
             padding-left: 14px;
             margin-bottom: 18px;
             display: flex;
@@ -202,7 +290,7 @@
 
         p {
             margin: 0 0 12px 0;
-            color: #3d2833;
+            color: var(--text-body);
         }
 
         ul.main-list {
@@ -215,7 +303,7 @@
             margin-bottom: 16px;
             padding-left: 6px;
             position: relative;
-            border-bottom: 1px dashed #f2d7e0;
+            border-bottom: 1px dashed var(--divider-dashed);
             padding-bottom: 12px;
         }
 
@@ -226,9 +314,9 @@
 
         ul.main-list li .date {
             float: right;
-            color: #7d5b68;
+            color: var(--text-light);
             font-size: 0.85em;
-            background: #ffebf0;
+            background: var(--bg-badge);
             padding: 0 12px;
             border-radius: 30px;
             font-weight: 450;
@@ -236,7 +324,7 @@
         }
 
         ul.main-list li strong {
-            color: #421f2d;
+            color: var(--text-dark);
         }
 
         .award-item {
@@ -248,21 +336,74 @@
 
         .award-item .date {
             float: none;
-            background: #ffdee8;
+            background: var(--bg-badge);
             padding: 0 12px;
             border-radius: 30px;
             font-size: 0.8em;
-            color: #7a4f5d;
+            color: var(--text-light);
+        }
+
+        /* ===== 主题切换按钮 ===== */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            padding: 4px 8px;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+            background: var(--bg-badge);
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg) scale(1.1);
+            background: var(--accent);
+            box-shadow: 0 0 20px var(--accent-shadow);
+        }
+
+        .theme-toggle .theme-icon {
+            display: inline-block;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            line-height: 1;
+        }
+
+        [data-theme="dark"] .theme-toggle .theme-icon {
+            transform: rotate(360deg) scale(1);
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s ease;
+        }
+
+        .theme-toggle:active::after {
+            opacity: 0.3;
+            transform: scale(2);
         }
 
         /* ===== Tech Stack 知识图谱 ===== */
         .tech-graph-wrapper {
             position: relative;
-            background: #fcf4f7;
+            background: var(--bg-tech);
             border-radius: 24px;
             padding: 20px;
             margin-top: 4px;
-            border: 1px solid #fadce6;
+            border: 1px solid var(--bg-tech-border);
             min-height: 580px;
             overflow: hidden;
         }
@@ -278,10 +419,10 @@
 
         .footer-note {
             margin-top: 28px;
-            border-top: 1px solid #fad0dc;
+            border-top: 1px solid var(--divider);
             padding-top: 16px;
             font-size: 0.9rem;
-            color: #775a66;
+            color: var(--text-footer);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -289,11 +430,47 @@
         }
 
         .footer-note span:last-child {
-            background: #ffdee8;
+            background: var(--bg-badge);
             padding: 2px 14px;
             border-radius: 40px;
         }
 
+        /* ===== Research Interests 内联样式覆盖 ===== */
+        .research-box {
+            max-width: 80%;
+            padding-left: 6px;
+        }
+
+        .research-box p {
+            font-size: 0.98rem;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-section);
+            border-radius: 16px;
+            padding: 14px 20px;
+            border-left: 3px solid var(--accent);
+            margin: 0;
+        }
+
+        .research-box p strong {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        .tag-group {
+            font-size: 1.05rem;
+            padding-left: 6px;
+            margin-bottom: 14px;
+        }
+
+        .tag-group .tag {
+            background: var(--bg-tag);
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-right: 8px;
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 640px) {
             .page {
                 padding: 24px 16px;
@@ -340,6 +517,9 @@
                 padding: 10px;
                 min-height: 400px;
             }
+            .research-box {
+                max-width: 100%;
+            }
         }
 
         @media (max-width: 420px) {
@@ -353,6 +533,11 @@
             .tech-graph-wrapper {
                 min-height: 340px;
                 padding: 6px;
+            }
+            .theme-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -368,7 +553,12 @@
             </div>
 
             <div class="header-text">
-                <h1>Yingying Huang</h1>
+                <h1>
+                    Yingying Huang
+                    <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </h1>
                 <div class="title">
                     <span>🧠 Master Student · Cyberspace Security</span>
                     <span style="opacity:0.5; margin-left:4px;"></span>
@@ -379,29 +569,29 @@
                     <li>
                         <span>📬</span> <strong>Email:</strong>
                         <a href="mailto:yinghuang2233@gmail.com">yinghuang2233@gmail.com</a>
-                        <span style="color:#a07a85; margin:0 4px;">·</span>
+                        <span style="color:var(--text-light); margin:0 4px;">·</span>
                         <a href="mailto:2025202210052@whu.edu.cn">2025202210052@whu.edu.cn</a>
                     </li>
-                    <li><span>📍</span> <span style="color:#6d4c59;">Wuhan · China</span></li>
+                    <li><span>📍</span> <span style="color:var(--text-muted);">Wuhan · China</span></li>
                 </ul>
             </div>
         </header>
 
-<!-- 研究方向 -->
-<section>
-    <h2>
-        <span class="emoji-badge">🔎</span> Research Interests
-    </h2>
-    <p style="font-size:1.05rem; padding-left:6px; margin-bottom:14px;">
-        <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🤖 Federated Learning</span>
-        <span style="background:#ffe4ec; padding:2px 12px; border-radius:40px; margin-right:8px;">🛡️ LLM Security</span>
-    </p>
-    <div style="max-width:80%; padding-left:6px;">
-        <p style="font-size:0.98rem; color:#4c2e3a; line-height:1.8; background:#fff5f8; border-radius:16px; padding:14px 20px; border-left:3px solid #c4768b; margin:0;">
-            I am delighted to be pursuing my studies at Wuhan University, where I have the opportunity to deepen my knowledge and contribute to cutting-edge research in artificial intelligence. My research interests primarily focus on <strong style="color:#b1526b; font-weight:700;">AI Security</strong>, with particular emphasis on <strong style="color:#b1526b; font-weight:700;">Federated Learning</strong> and <strong style="color:#b1526b; font-weight:700;">LLM Security</strong>. I am passionate about building AI technologies that are not only powerful and efficient but also <strong style="color:#b1526b; font-weight:700;">safe, trustworthy, and responsible</strong>.
-        </p>
-    </div>
-</section>
+        <!-- 研究方向 -->
+        <section>
+            <h2>
+                <span class="emoji-badge">🔎</span> Research Interests
+            </h2>
+            <div class="tag-group">
+                <span class="tag">🤖 Federated Learning</span>
+                <span class="tag">🛡️ LLM Security</span>
+            </div>
+            <div class="research-box">
+                <p>
+                    I am delighted to be pursuing my studies at Wuhan University, where I have the opportunity to deepen my knowledge and contribute to cutting-edge research in artificial intelligence. My research interests primarily focus on <strong>AI Security</strong>, with particular emphasis on <strong>Federated Learning</strong> and <strong>LLM Security</strong>. I am passionate about building AI technologies that are not only powerful and efficient but also <strong>safe, trustworthy, and responsible</strong>.
+                </p>
+            </div>
+        </section>
 
         <section>
             <h2>
@@ -411,12 +601,12 @@
                 <li>
                     <span class="date">📅 Sep. 2025 – Expected Jun. 2028</span>
                     <strong>Wuhan University</strong><br />
-                    <span style="color:#5f3f4b;">M.S. in Cyberspace Security</span> · School of Cyber Science and Engineering
+                    <span style="color:var(--text-muted);">M.S. in Cyberspace Security</span> · School of Cyber Science and Engineering
                 </li>
                 <li>
                     <span class="date">📅 Sep. 2021 – Jun. 2025</span>
                     <strong>Anhui University</strong><br />
-                    <span style="color:#5f3f4b;">B.S. in Information Security</span> · School of Computer Science and Technology
+                    <span style="color:var(--text-muted);">B.S. in Information Security</span> · School of Computer Science and Technology
                 </li>
             </ul>
         </section>
@@ -427,9 +617,9 @@
             </h2>
             <ul class="main-list">
                 <li class="award-item">
-            <span><span style="margin-right:8px;">🎓</span> Outstanding Graduate of Anhui University</span>
-            <span class="date">2025</span>
-            </li>
+                    <span><span style="margin-right:8px;">🎓</span> Outstanding Graduate of Anhui University</span>
+                    <span class="date">2025</span>
+                </li>
                 <li class="award-item">
                     <span><span style="margin-right:8px;">🏅</span> Zhengwei Scholarship (2%)</span>
                     <span class="date">2024</span>
@@ -463,6 +653,61 @@
 
     <script>
         (function() {
+            // ========== 主题切换 ==========
+            (function initTheme() {
+                const toggle = document.getElementById('themeToggle');
+                if (!toggle) return;
+
+                const icon = toggle.querySelector('.theme-icon');
+                const html = document.documentElement;
+
+                // 检测系统偏好
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+                const savedTheme = localStorage.getItem('theme');
+                
+                // 确定初始主题
+                let theme = savedTheme;
+                if (!theme) {
+                    theme = prefersDark.matches ? 'dark' : 'light';
+                }
+                
+                // 应用主题
+                function setTheme(themeName) {
+                    if (themeName === 'dark') {
+                        html.setAttribute('data-theme', 'dark');
+                        if (icon) icon.textContent = '☀️';
+                    } else {
+                        html.removeAttribute('data-theme');
+                        if (icon) icon.textContent = '🌙';
+                    }
+                    localStorage.setItem('theme', themeName);
+                }
+                
+                setTheme(theme);
+                
+                // 切换主题
+                toggle.addEventListener('click', () => {
+                    const current = html.getAttribute('data-theme');
+                    const newTheme = current === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                });
+                
+                // 监听系统主题变化（仅当用户没有手动保存偏好时）
+                prefersDark.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        setTheme(e.matches ? 'dark' : 'light');
+                    }
+                });
+
+                // 键盘快捷键: Ctrl + Shift + D
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+                        e.preventDefault();
+                        toggle.click();
+                    }
+                });
+            })();
+
             // ========== 星星脚本 ==========
             const container = document.getElementById('stars-container');
             if (container) {
@@ -573,7 +818,6 @@
                 H = h;
                 const cx = W / 2;
                 const cy = H / 2;
-                // 进一步增大半径，让节点更分散
                 const radius = Math.min(W, H) * 0.48;
 
                 positions = {};
@@ -596,7 +840,7 @@
                 // 二级节点 - 更分散
                 const used = Object.values(positions);
                 const outerR = radius * 0.96;
-                const minDist = 2000; // 进一步增大最小距离
+                const minDist = 2000;
 
                 secondaryList.forEach((word) => {
                     let attempts = 0;
@@ -708,7 +952,7 @@
                 ctx.arc(cp.x, cp.y, 90, 0, 2 * Math.PI);
                 ctx.fill();
 
-                // ---- 绘制节点 (字体放大) ----
+                // ---- 绘制节点 ----
                 for (const word of nodes) {
                     const pos = positions[word];
                     if (!pos) continue;
@@ -829,6 +1073,19 @@
 
             window.addEventListener('beforeunload', () => {
                 if (animFrame) cancelAnimationFrame(animFrame);
+            });
+
+            // ========== 监听主题变化刷新图谱 ==========
+            const observer = new MutationObserver(() => {
+                // 图谱颜色不依赖CSS变量，但重新绘制可以更新视觉一致性
+                // 这里简单触发重绘
+                if (Object.keys(positions).length > 0) {
+                    drawGraph();
+                }
+            });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-theme']
             });
 
         })();
