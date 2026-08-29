@@ -267,16 +267,16 @@
             border-color: var(--text-muted);
         }
         .note-sub-title {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .note-sub-desc {
             font-size: 0.88rem;
             color: var(--text-body);
-            line-height: 1.5;
-            margin-bottom: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         /* 图片占位区域 */
@@ -284,23 +284,18 @@
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 12px;
         }
         .img-wrapper {
             flex: 1;
-            min-width: 220px; /* 在手机端会自动换行 */
+            min-width: 220px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
-        .img-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-align: center;
-        }
         .placeholder-img {
             width: 100%;
-            height: 160px; /* 占位高度，放入真实图片后可将 height 改为 auto */
+            height: 160px;
             object-fit: cover;
             background-color: var(--bg-badge);
             border: 1px dashed var(--divider-dashed);
@@ -310,6 +305,46 @@
             justify-content: center;
             color: var(--text-muted);
             font-size: 0.85rem;
+        }
+
+        /* ===== 新增：参考文献样式 ===== */
+        .paper-refs {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--divider-dashed);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .paper-refs ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .paper-refs li {
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.5;
+        }
+        .paper-refs li::before {
+            content: "📄";
+            position: absolute;
+            left: 0;
+            top: 1px;
+            font-size: 0.8rem;
+        }
+        .paper-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .paper-link:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+        .paper-authors {
+            color: var(--text-light);
+            font-style: italic;
         }
 
         .note-tags {
@@ -388,27 +423,47 @@
             <!-- 垂直排列的介绍区域 -->
             <div class="note-sub-list">
                 
-                <!-- 1. GIA (被动攻击 - 上) -->
+                <!-- 1. GIA (被动攻击) -->
                 <div class="note-sub-item">
-                    <div class="note-sub-title">🔍 GIA </div>
-                    <div class="note-sub-desc">Servers attempting to reconstruct private local training data purely from observing shared gradients or modifying the training process.</div>
+                    <div class="note-sub-title">🔍 GIA (Gradient Inversion Attack)</div>
+                    <div class="note-sub-desc">
+                        梯度反转攻击（GIA）是联邦学习中一种严重的数据隐私威胁。传统的联邦学习假定“数据不动模型动”，仅传输梯度。然而，GIA 证明了恶意服务器或窃听者只需截获客户端上传的梯度，即可利用优化算法（如 DLG, iDLG）完美重建客户端的高保真原始训练数据（包括图像和文本），从而打破了联邦学习的基本隐私保障。
+                    </div>
                     <div class="img-container">
                         <div class="img-wrapper">
-                            <!-- 放入真实图片时，将 div 替换为  -->
-                            <img src="Image/paper1.png" class="placeholder-img" style="height: auto;" />
+                            <!-- 放入真实图片时，将 div 替换为 -->
+                            <img src="Image/paper1.png" class="placeholder-img" style="height: auto;" alt="GIA Overview"/>
                         </div>
+                    </div>
+                    <!-- 论文引用区 -->
+                    <div class="paper-refs">
+                        <ul>
+                            <li><a href="https://arxiv.org/abs/1906.08935" target="_blank" class="paper-link">Deep Leakage from Gradients</a> <span class="paper-authors">- Zhu et al., NeurIPS 2019 (DLG经典作)</span></li>
+                            <li><a href="https://arxiv.org/abs/2003.14053" target="_blank" class="paper-link">Inverting Gradients - How easy is it to break privacy in federated learning?</a> <span class="paper-authors">- Geiping et al., NeurIPS 2020</span></li>
+                            <li><a href="https://arxiv.org/abs/2001.02610" target="_blank" class="paper-link">iDLG: Improved Deep Leakage from Gradients</a> <span class="paper-authors">- Zhao et al., 2020</span></li>
+                        </ul>
                     </div>
                 </div>
 
 
-                <!-- 4. FedLLM (单图片占位) -->
+                <!-- 2. FedLLM -->
                 <div class="note-sub-item">
-                    <div class="note-sub-title">🤖 FedLLM</div>
-                    <div class="note-sub-desc">Federated training paradigms for Large Language Models, utilizing parameter-efficient fine-tuning (PEFT/LoRA).</div>
+                    <div class="note-sub-title">🤖 FedLLM (Federated Large Language Models)</div>
+                    <div class="note-sub-desc">
+                        FedLLM 致力于在分布式客户端上对大语言模型进行去中心化的训练与微调。由于大模型（如 LLaMA, GPT系列）动辄数十亿参数，直接传输全部梯度会造成难以承受的通信灾难。因此，FedLLM 范式通常结合参数高效微调（PEFT，如 LoRA、P-Tuning），客户端只需训练并上传极少量的旁路矩阵参数，在保障数据不出域的同时，实现大模型的千人千面与个性化对齐。
+                    </div>
                     <div class="img-container">
                         <div class="img-wrapper">
-                            <img src="Image/paper2.png" class="placeholder-img" style="height: auto;" />
+                            <img src="Image/paper2.png" class="placeholder-img" style="height: auto;" alt="FedLLM Process"/>
                         </div>
+                    </div>
+                    <!-- 论文引用区 -->
+                    <div class="paper-refs">
+                        <ul>
+                            <li><a href="https://arxiv.org/abs/2307.09281" target="_blank" class="paper-link">Federated Learning of Large Language Models: A Comprehensive Survey</a> <span class="paper-authors">- Fan et al., 2023</span></li>
+                            <li><a href="https://arxiv.org/abs/2304.13739" target="_blank" class="paper-link">FedIT: Federated Instruction Tuning of Large Language Models</a> <span class="paper-authors">- Zhang et al., 2023</span></li>
+                            <li><a href="https://arxiv.org/abs/2309.00675" target="_blank" class="paper-link">FFA-LoRA: Towards Parameter-Efficient and Communication-Efficient Federated Learning</a> <span class="paper-authors">- Peng et al., 2023</span></li>
+                        </ul>
                     </div>
                 </div>
 
@@ -418,6 +473,7 @@
                 <span class="note-tag">Federated Learning</span>
                 <span class="note-tag">Distributed AI</span>
                 <span class="note-tag">Privacy</span>
+                <span class="note-tag">LLM</span>
             </div>
         </div>
     </div>
