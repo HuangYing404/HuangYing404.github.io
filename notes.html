@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Huang Yingying · Notes</title>
     <style>
-        /* ===== CSS 变量 - 纯黑白学术风格保持一致 ===== */
+        /* ===== CSS Variables - Consistent Black & White Academic Style ===== */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f5;
@@ -92,7 +92,7 @@
             z-index: 10;
         }
 
-        /* ===== 导航栏 ===== */
+        /* ===== Navigation Bar ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -181,7 +181,7 @@
             transform: scale(1.1) translateY(-2px);
         }
 
-        /* 页面标题头部 */
+        /* Page Header */
         .notes-header {
             margin-bottom: 30px;
         }
@@ -196,7 +196,7 @@
             font-size: 1rem;
         }
 
-        /* 笔记卡片列表区 */
+        /* Notes Card List Area */
         .notes-list {
             display: flex;
             flex-direction: column;
@@ -249,7 +249,7 @@
             margin-bottom: 12px;
         }
 
-        /* ===== 笔记内部垂直列表 & 图片占位样式 ===== */
+        /* ===== Note Internal Vertical List & Image Placeholder Styles ===== */
         .note-sub-list {
             display: flex;
             flex-direction: column;
@@ -279,7 +279,7 @@
             margin-bottom: 16px;
         }
 
-        /* 图片占位区域 */
+        /* Image Placeholder Area */
         .img-container {
             display: flex;
             gap: 12px;
@@ -307,7 +307,7 @@
             font-size: 0.85rem;
         }
 
-        /* ===== 新增：参考文献样式 ===== */
+        /* ===== New: Reference Styles ===== */
         .paper-refs {
             margin-top: 16px;
             padding-top: 12px;
@@ -389,56 +389,56 @@
 <body>
 <div class="page-container">
 
-    <!-- ===== 导航栏 ===== -->
+    <!-- ===== Navigation Bar ===== -->
     <nav class="navbar">
         <div class="nav-logo">Yellow Huang<span>🤪</span></div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="notes.html" class="active">Notes</a>
-            <button id="themeToggleNav" class="theme-toggle-nav" aria-label="切换主题">
+            <button id="themeToggleNav" class="theme-toggle-nav" aria-label="Toggle Theme">
                 <span class="theme-icon">🌙</span>
             </button>
             <img src="avatar.jpg" alt="Cute Mascot" class="nav-mascot" />
         </div>
     </nav>
 
-    <!-- ===== Notes 页面头部 ===== -->
+    <!-- ===== Notes Page Header ===== -->
     <div class="notes-header">
         <h1>My Study Notes</h1>
         <p>A repository of my learning notes, thoughts on academic papers, and technical summaries.</p>
     </div>
 
-    <!-- ===== 笔记列表 ===== -->
+    <!-- ===== Notes List ===== -->
     <div class="notes-list">
-        <!-- 笔记 1: Federated Learning -->
+        <!-- Note 1: Federated Learning -->
         <div class="note-card">
             <div class="note-meta">
                 <a href="#" class="note-title">Federated Learning</a>
                 <span class="note-date">Aug. 2026</span>
             </div>
             <div class="note-summary">
-                Study notes on Federated Learning privacy-preserving techniques, attack vectors, and large model integration.
+                Study notes on Federated Learning.
             </div>
             
-            <!-- 垂直排列的介绍区域 -->
+            <!-- Vertically aligned introduction area -->
             <div class="note-sub-list">
                 
-                <!-- 1. GIA (被动攻击) -->
+                <!-- 1. GIA (Passive Attack) -->
                 <div class="note-sub-item">
                     <div class="note-sub-title">🔍 GIA (Gradient Inversion Attack)</div>
                     <div class="note-sub-desc">
-                        梯度反转攻击（GIA）是联邦学习中一种严重的数据隐私威胁。传统的联邦学习假定“数据不动模型动”，仅传输梯度。然而，GIA 证明了恶意服务器或窃听者只需截获客户端上传的梯度，即可利用优化算法（如 DLG, iDLG）完美重建客户端的高保真原始训练数据（包括图像和文本），从而打破了联邦学习的基本隐私保障。
+                        Gradient Inversion Attack (GIA) is a severe data privacy threat in federated learning. Traditional federated learning assumes "data stays, models move" and only transmits gradients. However, GIA demonstrates that a malicious server or eavesdropper only needs to intercept the gradients uploaded by the client to perfectly reconstruct the client's high-fidelity original training data (including images and text) using optimization algorithms (such as DLG, iDLG), thereby breaking the fundamental privacy guarantees of federated learning.
                     </div>
                     <div class="img-container">
                         <div class="img-wrapper">
-                            <!-- 放入真实图片时，将 div 替换为 -->
+                            <!-- When placing a real image, replace the div with -->
                             <img src="Image/paper1.png" class="placeholder-img" style="height: auto;" alt="GIA Overview"/>
                         </div>
                     </div>
-                    <!-- 论文引用区 -->
+                    <!-- Paper References Area -->
                     <div class="paper-refs">
                         <ul>
-                            <li><a href="https://arxiv.org/abs/1906.08935" target="_blank" class="paper-link">Deep Leakage from Gradients</a> <span class="paper-authors">- Zhu et al., NeurIPS 2019 (DLG经典作)</span></li>
+                            <li><a href="https://arxiv.org/abs/1906.08935" target="_blank" class="paper-link">Deep Leakage from Gradients</a> <span class="paper-authors">- Zhu et al., NeurIPS 2019 (DLG Classic Work)</span></li>
                             <li><a href="https://arxiv.org/abs/2003.14053" target="_blank" class="paper-link">Inverting Gradients - How easy is it to break privacy in federated learning?</a> <span class="paper-authors">- Geiping et al., NeurIPS 2020</span></li>
                             <li><a href="https://arxiv.org/abs/2001.02610" target="_blank" class="paper-link">iDLG: Improved Deep Leakage from Gradients</a> <span class="paper-authors">- Zhao et al., 2020</span></li>
                         </ul>
@@ -450,14 +450,14 @@
                 <div class="note-sub-item">
                     <div class="note-sub-title">🤖 FedLLM (Federated Large Language Models)</div>
                     <div class="note-sub-desc">
-                        FedLLM 致力于在分布式客户端上对大语言模型进行去中心化的训练与微调。由于大模型（如 LLaMA, GPT系列）动辄数十亿参数，直接传输全部梯度会造成难以承受的通信灾难。因此，FedLLM 范式通常结合参数高效微调（PEFT，如 LoRA、P-Tuning），客户端只需训练并上传极少量的旁路矩阵参数，在保障数据不出域的同时，实现大模型的千人千面与个性化对齐。
+                        FedLLM focuses on the decentralized training and fine-tuning of large language models across distributed clients. Since large models (like LLaMA, GPT series) often have billions of parameters, directly transmitting all gradients would cause an unbearable communication disaster. Therefore, the FedLLM paradigm typically combines Parameter-Efficient Fine-Tuning (PEFT, such as LoRA, P-Tuning), where clients only need to train and upload a very small amount of bypass matrix parameters. This ensures data remains localized while achieving thousands of personalized alignments for large models.
                     </div>
                     <div class="img-container">
                         <div class="img-wrapper">
                             <img src="Image/paper2.png" class="placeholder-img" style="height: auto;" alt="FedLLM Process"/>
                         </div>
                     </div>
-                    <!-- 论文引用区 -->
+                    <!-- Paper References Area -->
                     <div class="paper-refs">
                         <ul>
                             <li><a href="https://arxiv.org/abs/2307.09281" target="_blank" class="paper-link">Federated Learning of Large Language Models: A Comprehensive Survey</a> <span class="paper-authors">- Fan et al., 2023</span></li>
@@ -478,10 +478,10 @@
         </div>
     </div>
 
-    <!-- ===== 页脚 ===== -->
+    <!-- ===== Footer ===== -->
     <div class="footer-note">
         <span>💬 “<em>Documenting the journey of continuous exploration.</em>”</span>
-        <span>✨ 2026 · 夏</span>
+        <span>✨ 2026 · Summer</span>
     </div>
 </div>
 
