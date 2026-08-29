@@ -108,7 +108,7 @@
             z-index: 10;
         }
 
-        /* ===== 导航栏 ===== */
+        /* ===== 导航栏调整：增加吸顶(Sticky)和背景色 ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -118,10 +118,12 @@
             border-bottom: 1px solid var(--divider);
             flex-wrap: wrap;
             gap: 12px 20px;
+            
+            /* 吸顶固定样式 */
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: var(--bg-primary);
+            background-color: var(--bg-primary); /* 遮挡下方滚动的内容 */
         }
 
         .nav-logo {
@@ -184,15 +186,17 @@
             transform: rotate(360deg) scale(1);
         }
 
+        /* ===== 导航栏内嵌入小羊图片样式 ===== */
         .nav-mascot {
-            height: 40px;
+            height: 40px; /* 和导航按钮同高，保持大小一致 */
             width: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-            margin-left: 8px;
+            margin-left: 8px; /* 和左侧按钮保持一点间距 */
             cursor: pointer;
         }
+
         .nav-mascot:hover {
             transform: scale(1.1) translateY(-2px);
         }
@@ -432,6 +436,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             transition: box-shadow 0.2s ease, background 0.4s ease, border-color 0.4s ease;
         }
+        
         .project-item:hover {
             box-shadow: 0 6px 18px rgba(0,0,0,0.05);
         }
@@ -481,6 +486,7 @@
         }
         .academic-ack p {
             text-align: justify;
+            text-justify: inter-word;
             font-size: 0.96rem;
             line-height: 1.8;
             color: var(--text-body);
@@ -508,6 +514,7 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .footer-note span:last-child {
             background: var(--bg-badge);
             padding: 2px 14px;
@@ -515,17 +522,85 @@
         }
 
         @media (max-width: 860px) {
-            .page-container { max-width: 96%; }
-            .research-row { flex-direction: column; align-items: stretch; }
-            header { flex-direction: column-reverse; align-items: center; text-align: center; }
-            .header-photo { margin-left: 0; margin-bottom: 14px; }
-            .header-left { text-align: center; }
-            .header-text h1 { justify-content: center; }
-            .title { justify-content: center; }
-            .contact-list li { justify-content: center; }
-            ul.main-list li, .award-item { flex-direction: column; align-items: flex-start; gap: 2px; }
-            .navbar { flex-direction: column; align-items: center; text-align: center; }
-            .nav-links { justify-content: center; }
+            .page-container {
+                max-width: 96%;
+            }
+            .research-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .research-box {
+                max-width: 100%;
+            }
+            .header-left {
+                max-width: 100%;
+            }
+            header {
+                flex-direction: column-reverse;
+                align-items: center;
+                text-align: center;
+            }
+            .header-photo {
+                margin-left: 0;
+                margin-bottom: 14px;
+            }
+            .header-photo img {
+                width: 140px;
+                height: 140px;
+            }
+            .header-left {
+                text-align: center;
+            }
+            .header-text h1 {
+                justify-content: center;
+            }
+            .title {
+                justify-content: center;
+            }
+            .contact-list li {
+                justify-content: center;
+            }
+            ul.main-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            ul.main-list li .date {
+                margin-left: 0;
+                align-self: flex-start;
+            }
+            .award-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            .academic-ack p {
+                padding: 16px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-photo img {
+                width: 120px;
+                height: 120px;
+            }
+            .header-text h1 {
+                font-size: 2.0rem;
+            }
+            .nav-links {
+                gap: 12px;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -536,10 +611,11 @@
     <nav class="navbar">
         <div class="nav-logo">Yellow Huang<span>🤪</span></div>
         <div class="nav-links">
-            <a href="index.html" class="active">Home</a>
-            <a href="index.html#education">Education</a>
-            <a href="index.html#awards">Awards</a>
-            <a href="index.html#projects">Projects</a>
+            <a href="#" class="active">Home</a>
+            <a href="#education">Education</a>
+            <a href="#awards">Awards</a>
+            <a href="#projects">Projects</a>
+            <!-- 仅仅在这里将原先的致谢改成了跳转到笔记页面 -->
             <a href="notes.html">Notes</a>
             <button id="themeToggleNav" class="theme-toggle-nav" aria-label="切换主题">
                 <span class="theme-icon">🌙</span>
@@ -679,11 +755,11 @@
         </div>
     </section>
 
-    <!-- ===== 学习笔记快捷入口 (原Acknowledgement更改处) ===== -->
-    <section id="notes-preview" class="academic-ack">
-        <h2><span class="emoji-badge">📝</span> Notes & Logs</h2>
+    <!-- ===== 致谢 (保留原内容) ===== -->
+    <section id="acknowledgement" class="academic-ack">
+        <h2>🙏 Acknowledgement </h2>
         <p>
-            Welcome to my study notes section! Here I document insights and key findings on <a href="notes.html">Federated Learning, LLM Security, and Cryptography</a>. Feel free to check out my detailed notes page.
+            I would like to express my sincere gratitude to <a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer">Anhui University</a> and <a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer">Wuhan University</a> 
         </p>
     </section>
 
