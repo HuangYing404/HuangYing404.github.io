@@ -289,10 +289,10 @@
             font-size: 0.97rem;
             color: var(--text-body);
             line-height: 1.8;
-            background: #ffffff; /* 强制纯白背景 */
+            background: var(--bg-card); /* 修复：替换了强制纯白，使用变量以支持暗色模式 */
             border-radius: 12px;
             padding: 16px 22px;
-            border: 1px solid var(--border-light); /* 添加淡边框 */
+            border: 1px solid var(--border-light); 
             margin: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
@@ -401,19 +401,18 @@
             white-space: nowrap;
         }
 
-/* 项目卡片 */
+        /* 项目卡片 */
         .project-list {
             padding-left: 0;
         }
         .project-item {
-            background: #ffffff; /* 强制纯白背景 */
+            background: var(--bg-card); /* 修复：替换了强制纯白，使用变量以支持暗色模式 */
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 16px;
-            border: 1px solid var(--border-light); /* 添加一圈极淡的边框替代粗黑线 */
-            /* border-left: 4px solid var(--text-primary);  <-- 这行就是原来的黑线，已经删去 */
+            border: 1px solid var(--border-light); 
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            transition: box-shadow 0.2s ease;
+            transition: box-shadow 0.2s ease, background 0.4s ease, border-color 0.4s ease;
         }
         
         .project-item:hover {
@@ -734,7 +733,7 @@
 
     <!-- ===== 致谢 ===== -->
     <section id="acknowledgement" class="academic-ack">
-        <h2>🙏 Acknowledgement </h2>
+        <h2>🙏 Acknowledgement </h2>
         <p>
             I would like to express my sincere gratitude to <a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer">Anhui University</a> and <a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer">Wuhan University</a> 
         </p>
