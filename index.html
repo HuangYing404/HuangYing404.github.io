@@ -289,10 +289,10 @@
             font-size: 0.97rem;
             color: var(--text-body);
             line-height: 1.8;
-            background: var(--bg-section);
+            background: #ffffff; /* 强制纯白背景 */
             border-radius: 12px;
             padding: 16px 22px;
-            border-left: 4px solid var(--text-primary);
+            border: 1px solid var(--border-light); /* 添加淡边框 */
             margin: 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
@@ -401,18 +401,21 @@
             white-space: nowrap;
         }
 
+/* 项目卡片 */
         .project-list {
             padding-left: 0;
         }
         .project-item {
-            background: var(--bg-section);
+            background: #ffffff; /* 强制纯白背景 */
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 16px;
-            border-left: 4px solid var(--text-primary);
+            border: 1px solid var(--border-light); /* 添加一圈极淡的边框替代粗黑线 */
+            /* border-left: 4px solid var(--text-primary);  <-- 这行就是原来的黑线，已经删去 */
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             transition: box-shadow 0.2s ease;
         }
+        
         .project-item:hover {
             box-shadow: 0 6px 18px rgba(0,0,0,0.05);
         }
