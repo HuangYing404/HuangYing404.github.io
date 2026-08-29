@@ -1,4 +1,4 @@
-#<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,6 @@
     <style>
         /* ===== CSS 变量 - 主题系统 ===== */
         :root {
-            /* 亮色主题（默认） */
             --bg-primary: #ffe4ec;
             --bg-secondary: #ffd9e6;
             --bg-card: rgba(255, 255, 255, 0.85);
@@ -40,14 +39,9 @@
             --divider-dashed: #f2d7e0;
             --border-light: #fadce6;
             
-            --star-color: #fff9c4;
-            --star-shadow: rgba(255, 215, 0, 0.8);
-            --star-drop: #ffb3c6;
-            
             --transition-speed: 0.4s;
         }
 
-        /* ===== 暗色主题 ===== */
         [data-theme="dark"] {
             --bg-primary: #1a0e12;
             --bg-secondary: #2a171e;
@@ -80,13 +74,8 @@
             --divider: #3d2a32;
             --divider-dashed: #3d2a32;
             --border-light: #3d2a32;
-            
-            --star-color: #ffeaa0;
-            --star-shadow: rgba(255, 215, 0, 0.5);
-            --star-drop: #8a4a5a;
         }
 
-        /* ===== 平滑过渡 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -105,95 +94,136 @@
             background-color: var(--bg-primary);
             background-image: radial-gradient(circle at 20% 30%, var(--bg-secondary) 0%, var(--bg-primary) 70%);
             min-height: 100vh;
-            padding: 0 12px;
+            padding: 0 12px 30px 12px;
             width: 98%;
             max-width: 1600px;
-            margin: 30px auto;
+            margin: 0 auto;
             position: relative;
             overflow-x: hidden;
         }
 
-        #stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            overflow: hidden;
+        /* ===== 导航栏 ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0 12px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--divider);
+            flex-wrap: wrap;
+            gap: 12px 20px;
         }
 
-        .star {
-            position: absolute;
-            color: var(--star-color);
-            font-size: 1.2rem;
-            opacity: 0.9;
-            text-shadow: 0 0 12px var(--star-shadow);
-            animation: fall linear infinite;
-            pointer-events: none;
-            will-change: transform, opacity;
-            filter: drop-shadow(0 0 6px var(--star-drop));
-            transition: color 0.6s ease, text-shadow 0.6s ease, filter 0.6s ease;
+        .nav-logo {
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            letter-spacing: -0.3px;
+        }
+        .nav-logo span {
+            color: var(--accent);
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-20px) rotate(0deg) scale(0.6);
-                opacity: 0.9;
-            }
-            20% {
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(720deg) scale(1.2);
-                opacity: 0.3;
-            }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.98rem;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: var(--accent-dark);
+            border-bottom-color: var(--accent);
+        }
+        .nav-links .theme-toggle-nav {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            padding: 4px 8px;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+            background: var(--bg-badge);
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+        }
+        .nav-links .theme-toggle-nav:hover {
+            transform: rotate(30deg) scale(1.05);
+            background: var(--accent);
+            box-shadow: 0 0 20px var(--accent-shadow);
+        }
+        .nav-links .theme-toggle-nav .theme-icon {
+            display: inline-block;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            line-height: 1;
+        }
+        [data-theme="dark"] .nav-links .theme-toggle-nav .theme-icon {
+            transform: rotate(360deg) scale(1);
         }
 
+        /* 页面主体 */
         .page {
-            background: var(--bg-card);
-            backdrop-filter: blur(2px);
-            border-radius: 28px;
-            padding: 40px 36px;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--bg-card-border);
+            background: transparent; 
+            backdrop-filter: none;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
             position: relative;
             z-index: 10;
         }
 
+        /* 头部布局：头像在右侧，研究兴趣在左侧并排 */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 32px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--divider);
             flex-wrap: wrap;
             flex-direction: row;
+            gap: 20px;
+        }
+
+        .header-left {
+            flex: 1;
+            min-width: 280px;
+            max-width: 50%;
         }
 
         .header-photo {
             flex-shrink: 0;
-            margin-right: 24px;
+            order: 2; 
+            margin-left: 20px;
         }
 
         .header-photo img {
-            width: 150px;
-            height: 150px;
+            width: 180px; 
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--bg-badge);
+            border: 4px solid var(--bg-badge);
             box-shadow: var(--shadow-img);
             transition: transform 0.2s ease, border-color var(--transition-speed) ease;
             background: #ffeef2;
+            display: block;
         }
 
         .header-photo img:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .header-text {
@@ -203,21 +233,20 @@
 
         .header-text h1 {
             margin: 0 0 6px 0;
-            font-size: 2.4em;
+            font-size: 2.6em;
             font-weight: 600;
             color: var(--text-secondary);
             letter-spacing: -0.3px;
             display: flex;
             align-items: center;
-            gap: 6px;
             flex-wrap: wrap;
+            gap: 8px;
         }
 
         .header-text h1 small {
             font-size: 0.55rem;
             font-weight: 400;
             color: var(--text-light);
-            margin-left: 6px;
             background: var(--bg-badge);
             padding: 0 10px;
             border-radius: 40px;
@@ -227,11 +256,11 @@
         .title {
             font-size: 1.1em;
             color: var(--text-muted);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 6px;
             flex-wrap: wrap;
+            gap: 6px;
         }
 
         .contact-list {
@@ -265,6 +294,61 @@
             border-bottom: 2px solid var(--accent-light);
         }
 
+        /* 研究兴趣区域 ———— 与头像并排 */
+        .research-row {
+            display: flex;
+            align-items: stretch;
+            gap: 30px;
+            margin-bottom: 34px;
+            flex-wrap: wrap;
+        }
+
+        .research-box {
+            flex: 1;
+            min-width: 260px;
+            max-width: 50%;
+            padding-left: 0;
+        }
+
+        .research-box p {
+            font-size: 0.98rem;
+            color: var(--text-body);
+            line-height: 1.8;
+            background: var(--bg-section);
+            border-radius: 16px;
+            padding: 18px 24px;
+            border-left: 4px solid var(--accent);
+            margin: 0;
+            box-shadow: 0 2px 8px rgba(180,80,100,0.04);
+        }
+
+        .research-box p strong {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        .tag-group {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-group .tag {
+            background: var(--bg-tag);
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+
+        .header-photo-wrapper {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 其他区域保持原有风格 */
         section {
             margin-bottom: 34px;
         }
@@ -343,134 +427,7 @@
             color: var(--text-light);
         }
 
-        /* ===== 主题切换按钮 ===== */
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.6rem;
-            padding: 4px 8px;
-            border-radius: 50%;
-            transition: all var(--transition-speed) ease;
-            background: var(--bg-badge);
-            width: 44px;
-            height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(30deg) scale(1.1);
-            background: var(--accent);
-            box-shadow: 0 0 20px var(--accent-shadow);
-        }
-
-        .theme-toggle .theme-icon {
-            display: inline-block;
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            line-height: 1;
-        }
-
-        [data-theme="dark"] .theme-toggle .theme-icon {
-            transform: rotate(360deg) scale(1);
-        }
-
-        .theme-toggle::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent), transparent 70%);
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.6s ease;
-        }
-
-        .theme-toggle:active::after {
-            opacity: 0.3;
-            transform: scale(2);
-        }
-
-        /* ===== Tech Stack 知识图谱 ===== */
-        .tech-graph-wrapper {
-            position: relative;
-            background: var(--bg-tech);
-            border-radius: 24px;
-            padding: 20px;
-            margin-top: 4px;
-            border: 1px solid var(--bg-tech-border);
-            min-height: 580px;
-            overflow: hidden;
-        }
-
-        .tech-graph-wrapper canvas {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            background: transparent;
-            cursor: default;
-        }
-
-        .footer-note {
-            margin-top: 28px;
-            border-top: 1px solid var(--divider);
-            padding-top: 16px;
-            font-size: 0.9rem;
-            color: var(--text-footer);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-note span:last-child {
-            background: var(--bg-badge);
-            padding: 2px 14px;
-            border-radius: 40px;
-        }
-
-        /* ===== Research Interests 内联样式覆盖 ===== */
-        .research-box {
-            max-width: 80%;
-            padding-left: 6px;
-        }
-
-        .research-box p {
-            font-size: 0.98rem;
-            color: var(--text-body);
-            line-height: 1.8;
-            background: var(--bg-section);
-            border-radius: 16px;
-            padding: 14px 20px;
-            border-left: 3px solid var(--accent);
-            margin: 0;
-        }
-
-        .research-box p strong {
-            color: var(--accent-light);
-            font-weight: 700;
-        }
-
-        .tag-group {
-            font-size: 1.05rem;
-            padding-left: 6px;
-            margin-bottom: 14px;
-        }
-
-        .tag-group .tag {
-            background: var(--bg-tag);
-            padding: 2px 12px;
-            border-radius: 40px;
-            margin-right: 8px;
-        }
-
-        /* ===== 项目卡片 ===== */
+        /* 项目卡片 */
         .project-list {
             padding-left: 6px;
         }
@@ -510,6 +467,7 @@
             color: var(--text-body);
             font-size: 0.95rem;
             margin: 8px 0 4px 0;
+            width: 80%;
         }
         .project-item .project-award {
             display: inline-block;
@@ -523,7 +481,6 @@
             border: 1px solid var(--bg-tech-border);
         }
 
-        /* ===== 致谢区域 ===== */
         .acknowledgement {
             margin-top: 8px;
             padding: 18px 22px;
@@ -550,6 +507,7 @@
             background: var(--bg-tag);
             padding: 2px 14px;
             border-radius: 40px;
+            text-decoration: none;
         }
         .acknowledgement .ack-date {
             font-weight: 450;
@@ -561,11 +519,35 @@
             white-space: nowrap;
         }
 
-        /* ===== 响应式 ===== */
-        @media (max-width: 640px) {
-            .page {
-                padding: 24px 16px;
-                border-radius: 20px;
+        .footer-note {
+            margin-top: 28px;
+            border-top: 1px solid var(--divider);
+            padding-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-footer);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-note span:last-child {
+            background: var(--bg-badge);
+            padding: 2px 14px;
+            border-radius: 40px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 860px) {
+            .research-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .research-box {
+                max-width: 100%;
+            }
+            .header-left {
+                max-width: 100%;
             }
             header {
                 flex-direction: column-reverse;
@@ -573,20 +555,18 @@
                 text-align: center;
             }
             .header-photo {
-                margin-right: 0;
+                margin-left: 0;
                 margin-bottom: 16px;
             }
             .header-photo img {
-                width: 130px;
-                height: 130px;
+                width: 150px;
+                height: 150px;
             }
-            .header-text {
-                padding-right: 0;
-                width: 100%;
+            .header-left {
+                text-align: center;
             }
             .header-text h1 {
                 justify-content: center;
-                font-size: 2rem;
             }
             .title {
                 justify-content: center;
@@ -600,107 +580,103 @@
                 margin-bottom: 4px;
                 font-size: 0.8rem;
             }
-            .award-item {
+            .project-item .project-desc {
+                width: 100%;
+            }
+            .navbar {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
+                text-align: center;
             }
-            .tech-graph-wrapper {
-                padding: 10px;
-                min-height: 400px;
-            }
-            .research-box {
-                max-width: 100%;
-            }
-            .project-item .project-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .acknowledgement {
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
-            }
-            .acknowledgement .ack-date {
-                align-self: flex-start;
+            .nav-links {
+                justify-content: center;
             }
         }
 
-        @media (max-width: 420px) {
-            .header-text h1 {
-                font-size: 1.7rem;
-            }
+        @media (max-width: 480px) {
             .header-photo img {
-                width: 110px;
-                height: 110px;
+                width: 120px;
+                height: 120px;
             }
-            .tech-graph-wrapper {
-                min-height: 340px;
-                padding: 6px;
+            .header-text h1 {
+                font-size: 2rem;
             }
-            .theme-toggle {
-                width: 36px;
-                height: 36px;
-                font-size: 1.2rem;
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div id="stars-container"></div>
+    <!-- ===== 导航栏 ===== -->
+    <nav class="navbar">
+        <div class="nav-logo">Huang<span>.</span></div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#education">Education</a>
+            <a href="#awards">Awards</a>
+            <a href="#projects">Projects</a>
+            <a href="#acknowledgement">Acknowledgement</a>
+            <button id="themeToggleNav" class="theme-toggle-nav" aria-label="切换主题">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
 
     <div class="page">
+
+        <!-- 头部：左侧文字占50%，右侧头像 -->
         <header>
-            <div class="header-photo">
-                <img src="avatar.jpg" alt="Huang Yingying avatar" title="Huang Yingying ✨" />
+            <div class="header-left">
+                <div class="header-text">
+                    <h1>
+                        Yingying Huang
+                        <!-- 主题按钮已移至导航，此处移除 -->
+                    </h1>
+                    <div class="title">
+                        <span>🧠 Master Student · Cyberspace Security</span>
+                    </div>
+                    <ul class="contact-list">
+                        <li><span>🏛️</span> <strong>University:</strong> Wuhan University</li>
+                        <li>
+                            <span>📬</span> <strong>Email:</strong>
+                            <a href="mailto:yinghuang2233@gmail.com">yinghuang2233@gmail.com</a>
+                            <span style="color:var(--text-light); margin:0 4px;">·</span>
+                            <a href="mailto:2025202210052@whu.edu.cn">2025202210052@whu.edu.cn</a>
+                        </li>
+                        <li><span>📍</span> <span style="color:var(--text-muted);">Wuhan · China</span></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="header-text">
-                <h1>
-                    Yingying Huang
-                    <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
-                        <span class="theme-icon">🌙</span>
-                    </button>
-                </h1>
-                <div class="title">
-                    <span>🧠 Master Student · Cyberspace Security</span>
-                    <span style="opacity:0.5; margin-left:4px;"></span>
+            <div class="header-photo-wrapper">
+                <div class="header-photo">
+                    <img src="avatar.jpg" alt="Huang Yingying avatar" title="Huang Yingying ✨" />
                 </div>
-
-                <ul class="contact-list">
-                    <li><span>🏛️</span> <strong>University:</strong> Wuhan University</li>
-                    <li>
-                        <span>📬</span> <strong>Email:</strong>
-                        <a href="mailto:yinghuang2233@gmail.com">yinghuang2233@gmail.com</a>
-                        <span style="color:var(--text-light); margin:0 4px;">·</span>
-                        <a href="mailto:2025202210052@whu.edu.cn">2025202210052@whu.edu.cn</a>
-                    </li>
-                    <li><span>📍</span> <span style="color:var(--text-muted);">Wuhan · China</span></li>
-                </ul>
             </div>
         </header>
 
-        <!-- 研究方向 -->
-        <section>
-            <h2>
-                <span class="emoji-badge">🔎</span> Research Interests
-            </h2>
-            <div class="tag-group">
-                <span class="tag">🤖 Federated Learning</span>
-                <span class="tag">🛡️ LLM Security</span>
-            </div>
+        <!-- 研究兴趣 + 头像右侧并排：研究兴趣单独成行，与头像对齐 -->
+        <div class="research-row">
             <div class="research-box">
+                <div class="tag-group">
+                    <span class="tag">🤖 Federated Learning</span>
+                    <span class="tag">🛡️ LLM Security</span>
+                </div>
                 <p>
                     I am delighted to be pursuing my studies at Wuhan University, where I have the opportunity to deepen my knowledge and contribute to cutting-edge research in artificial intelligence. My research interests primarily focus on <strong>AI Security</strong>, with particular emphasis on <strong>Federated Learning</strong> and <strong>LLM Security</strong>. I am passionate about building AI technologies that are not only powerful and efficient but also <strong>safe, trustworthy, and responsible</strong>.
                 </p>
             </div>
-        </section>
+            <!-- 右侧留空，头像已经在header中占据右侧 -->
+        </div>
 
-        <section>
-            <h2>
-                <span class="emoji-badge">🎓</span> Education
-            </h2>
+        <!-- 教育 -->
+        <section id="education">
+            <h2><span class="emoji-badge">🎓</span> Education</h2>
             <ul class="main-list">
                 <li>
                     <span class="date">📅 Sep. 2025 – Expected Jun. 2028</span>
@@ -715,10 +691,9 @@
             </ul>
         </section>
 
-        <section>
-            <h2>
-                <span class="emoji-badge">🏆</span> Awards & Honors
-            </h2>
+        <!-- 奖项 -->
+        <section id="awards">
+            <h2><span class="emoji-badge">🏆</span> Awards & Honors</h2>
             <ul class="main-list">
                 <li class="award-item">
                     <span><span style="margin-right:8px;">🎓</span> Outstanding Graduate of Anhui University</span>
@@ -739,19 +714,16 @@
             </ul>
         </section>
 
-        <!-- ===== 项目列表 ===== -->
-        <section>
-            <h2>
-                <span class="emoji-badge">📁</span> Projects
-            </h2>
+        <!-- 项目 -->
+        <section id="projects">
+            <h2><span class="emoji-badge">📁</span> Projects</h2>
             <div class="project-list">
-
                 <div class="project-item">
                     <div class="project-header">
                         <span class="project-title">🔬 Local Community Detection in Hypergraphs</span>
                         <span class="project-date">2022 – 2025</span>
                     </div>
-                    <div class="project-desc" style="width: 80%;">
+                    <div class="project-desc">
                         Modeled higher-order relationships among multiple entities using <strong>hypergraphs</strong> and investigated local community detection methods to improve structural pattern identification and potential collaboration discovery in complex networks.
                     </div>
                     <div class="project-award">🏅 Outstanding Project of Anhui Provincial College Student Innovation and Entrepreneurship Training Program</div>
@@ -762,8 +734,8 @@
                         <span class="project-title">🌐 SDN-Based Intrusion Detection System</span>
                         <span class="project-date">2022 – 2024</span>
                     </div>
-                    <div class="project-desc" style="width: 80%;">
-                        Leveraged the centralized control and global traffic visibility of <strong>Software-Defined Networking (SDN)</strong> to enable network traffic monitoring, anomalous behavior detection, and coordinated security policy enforcement, improving the detection of and response to network attacks.
+                    <div class="project-desc">
+                        Leveraged the centralized control and global traffic visibility of <strong>Software-Defined Networking (SDN)</strong> to enable network traffic monitoring, anomalous behavior detection, and coordinated security policy enforcement.
                     </div>
                     <div class="project-award">🎖️ Merit Award in Project Competition of the 16th National College Student Information Security Contest</div>
                 </div>
@@ -773,8 +745,8 @@
                         <span class="project-title">🔐 Zero-Knowledge-Proof-Based Trusted Image Editing & Verification</span>
                         <span class="project-date">2025 – 2026</span>
                     </div>
-                    <div class="project-desc" style="width: 80%;">
-                        Introduced <strong>GPU-based parallel acceleration</strong> to address the high computational overhead of CPU-based proof generation and verification for high-resolution images and complex editing scenarios, optimizing core computations through massive GPU parallelism. Achieved approximately a <strong>10× overall performance improvement</strong> compared with the CPU implementation.
+                    <div class="project-desc">
+                        Introduced <strong>GPU-based parallel acceleration</strong> to address high computational overhead. Achieved approximately a <strong>10× overall performance improvement</strong> compared with the CPU implementation.
                     </div>
                     <div class="project-award">🏆 National First Prize in the 10th National Cryptography Technology Competition</div>
                 </div>
@@ -784,38 +756,20 @@
                         <span class="project-title">⛓️ Blockchain & ShangMi-Based Fast Video Verification & Traceability</span>
                         <span class="project-date">2025 – 2026</span>
                     </div>
-                    <div class="project-desc" style="width: 80%;">
-                        Designed a fast verification mechanism for encrypted video data to address the storage and verification overhead associated with directly storing large-scale video data on-chain, improving verification efficiency while reducing blockchain storage costs.
+                    <div class="project-desc">
+                        Designed a fast verification mechanism for encrypted video data to address storage and verification overhead, improving efficiency while reducing blockchain storage costs.
                     </div>
-                    <div class="project-award">🥇 First Prize at Department Level, Wuhan University’s 13th “Ziqiang Cup” College Student Entrepreneurship Plan Competition</div>
+                    <div class="project-award">🥇 First Prize at Department Level, Wuhan University’s 13th “Ziqiang Cup”</div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ===== Tech Stack 知识图谱 ===== -->
-        <section>
-            <h2>
-                <span class="emoji-badge">🛠️</span> Tech Stack
-            </h2>
-            <div class="tech-graph-wrapper" id="graphWrapper">
-                <canvas id="graphCanvas"></canvas>
-            </div>
-        </section>
-
-        <!-- ===== 致谢区域（Root） ===== -->
-        <div class="acknowledgement">
+        <!-- 致谢 -->
+        <div id="acknowledgement" class="acknowledgement">
             <div class="ack-text">
                 <span>🙏 With deepest gratitude to</span>
-<!-- Anhui University -->
-<a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="111 Jiulong Rd, Shushan District, Hefei, Anhui, China (安徽省合肥市九龙路111号)">
-    🏛️ Anhui University
-</a>
-
-<!-- Wuhan University -->
-<a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="299 Bayi Rd, Wuchang District, Wuhan, Hubei, China (湖北省武汉市武昌区八一路299号)">
-    🏛️ Wuhan University
-</a>
+                <a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="Anhui University">🏛️ Anhui University</a>
+                <a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="Wuhan University">🏛️ Wuhan University</a>
                 <span style="opacity:0.6; margin-left:4px;">for their guidance and support</span>
             </div>
             <span class="ack-date">📅 Updated: 2026 · 08 · 01</span>
@@ -829,22 +783,15 @@
 
     <script>
         (function() {
-            // ========== 主题切换 ==========
-            (function initTheme() {
-                const toggle = document.getElementById('themeToggle');
-                if (!toggle) return;
-
-                const icon = toggle.querySelector('.theme-icon');
+            // ===== 主题切换 (导航按钮 + 统一控制) =====
+            const toggleNav = document.getElementById('themeToggleNav');
+            if (toggleNav) {
+                const icon = toggleNav.querySelector('.theme-icon');
                 const html = document.documentElement;
-
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
                 const savedTheme = localStorage.getItem('theme');
-                
-                let theme = savedTheme;
-                if (!theme) {
-                    theme = prefersDark.matches ? 'dark' : 'light';
-                }
-                
+                let theme = savedTheme || (prefersDark.matches ? 'dark' : 'light');
+
                 function setTheme(themeName) {
                     if (themeName === 'dark') {
                         html.setAttribute('data-theme', 'dark');
@@ -855,15 +802,13 @@
                     }
                     localStorage.setItem('theme', themeName);
                 }
-                
                 setTheme(theme);
-                
-                toggle.addEventListener('click', () => {
+
+                toggleNav.addEventListener('click', () => {
                     const current = html.getAttribute('data-theme');
-                    const newTheme = current === 'dark' ? 'light' : 'dark';
-                    setTheme(newTheme);
+                    setTheme(current === 'dark' ? 'light' : 'dark');
                 });
-                
+
                 prefersDark.addEventListener('change', (e) => {
                     if (!localStorage.getItem('theme')) {
                         setTheme(e.matches ? 'dark' : 'light');
@@ -873,377 +818,10 @@
                 document.addEventListener('keydown', (e) => {
                     if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
                         e.preventDefault();
-                        toggle.click();
-                    }
-                });
-            })();
-
-            // ========== 星星脚本 ==========
-            const container = document.getElementById('stars-container');
-            if (container) {
-                const starSymbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
-                const starCount = Math.floor(Math.random() * 20) + 15;
-                for (let i = 0; i < starCount; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    const symbol = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-                    star.textContent = symbol;
-                    const size = 0.8 + Math.random() * 1.8;
-                    star.style.fontSize = size + 'rem';
-                    star.style.left = Math.random() * 100 + '%';
-                    const duration = 8 + Math.random() * 18;
-                    star.style.animationDuration = duration + 's';
-                    star.style.animationDelay = Math.random() * 15 + 's';
-                    star.style.opacity = 0.6 + Math.random() * 0.4;
-                    star.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    container.appendChild(star);
-                }
-                setInterval(() => {
-                    if (!container) return;
-                    if (container.children.length > 85) return;
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    const symbols = ['✦', '✧', '⋆', '✶', '✴', '❋', '✵', '✷', '✹', '🌟', '⭐', '✨', '💫', '🌸', '🌺', '🪷'];
-                    star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                    const size = 0.8 + Math.random() * 1.8;
-                    star.style.fontSize = size + 'rem';
-                    star.style.left = Math.random() * 100 + '%';
-                    const duration = 8 + Math.random() * 18;
-                    star.style.animationDuration = duration + 's';
-                    star.style.animationDelay = '0s';
-                    star.style.opacity = 0.6 + Math.random() * 0.4;
-                    star.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    container.appendChild(star);
-                    if (container.children.length > 120) {
-                        const removeCount = container.children.length - 100;
-                        for (let i = 0; i < removeCount; i++) {
-                            if (container.children[i]) {
-                                container.removeChild(container.children[i]);
-                            }
-                        }
-                    }
-                }, 4000);
-            }
-
-            // ========== 知识图谱 (纯Canvas) ==========
-            const wrapper = document.getElementById('graphWrapper');
-            const canvas = document.getElementById('graphCanvas');
-
-            if (!wrapper || !canvas) return;
-
-            const core = 'Trustworthy AI';
-
-            const primaryRelated = new Set([
-                'Federated Learning', 'LLM Security', 'Privacy Preservation',
-                'Adversarial Training', 'Differential Privacy', 'System Security',
-                'Cryptography'
-            ]);
-
-            const allTechs = [
-                core,
-                'Federated Learning', 'LLM Security', 'Privacy Preservation',
-                'Adversarial Training', 'Differential Privacy', 'System Security',
-                'Software Security', 'Network Security', 'Cryptography',
-                'Zero-Knowledge Proof', 'Secure Multi-party Computation',
-                'Homomorphic Encryption', 'Recommender Systems', 'Community Detection',
-                'Python', 'C', 'Java', 'MATLAB', 'JavaScript', 'TypeScript',
-                'PyTorch', 'TensorFlow', 'OpenCV',
-                'Flask', 'Vue3', 'Node.js', 'RESTful API',
-                'SpringBoot', 'SpringCloud', 'MyBatis', 'Maven',
-                'MySQL', 'Redis', 'Nginx',
-                'Linux', 'Git', 'Docker', 'LaTeX'
-            ];
-
-            const secondaryRelated = allTechs.filter(t => t !== core && !primaryRelated.has(t));
-            const nodes = [core, ...Array.from(primaryRelated), ...secondaryRelated];
-
-            function getNodeColor(word, isCore) {
-                if (isCore) return { bg: '#c4768b', text: '#ffffff', border: '#b05f77' };
-                const colors = [
-                    { bg: '#ffdee8', text: '#5d2f40', border: '#eaa6b9' },
-                    { bg: '#e8d9f0', text: '#4a2d5a', border: '#c9a8d9' },
-                    { bg: '#fde6d6', text: '#5a3d2a', border: '#eabfa6' },
-                    { bg: '#d9ecf5', text: '#2a4a5a', border: '#9ec4d6' },
-                    { bg: '#f5e0e8', text: '#5a2a3a', border: '#d9aab8' },
-                    { bg: '#e6f0e0', text: '#2a4a2a', border: '#aac99a' }
-                ];
-                let hash = 0;
-                for (let i = 0; i < word.length; i++) {
-                    hash = word.charCodeAt(i) + ((hash << 5) - hash);
-                }
-                return colors[Math.abs(hash) % colors.length];
-            }
-
-            let W, H;
-            let positions = {};
-
-            function getSize() {
-                const rect = wrapper.getBoundingClientRect();
-                return { w: rect.width - 24, h: Math.max(500, rect.height - 24) };
-            }
-
-            function layoutNodes() {
-                const { w, h } = getSize();
-                W = w;
-                H = h;
-                const cx = W / 2;
-                const cy = H / 2;
-                const radius = Math.min(W, H) * 0.48;
-
-                positions = {};
-                positions[core] = { x: cx, y: cy };
-
-                const primaryList = Array.from(primaryRelated);
-                const secondaryList = secondaryRelated.slice();
-
-                const pCount = primaryList.length;
-                primaryList.forEach((word, i) => {
-                    const angle = (i / pCount) * 2 * Math.PI - Math.PI / 2;
-                    const r = radius * 0.62;
-                    positions[word] = {
-                        x: cx + r * Math.cos(angle),
-                        y: cy + r * Math.sin(angle)
-                    };
-                });
-
-                const used = Object.values(positions);
-                const outerR = radius * 0.96;
-                const minDist = 2000;
-
-                secondaryList.forEach((word) => {
-                    let attempts = 0;
-                    let x, y, ok;
-                    do {
-                        const angle = Math.random() * 2 * Math.PI;
-                        const r = outerR * (0.55 + Math.random() * 0.45);
-                        x = cx + r * Math.cos(angle);
-                        y = cy + r * Math.sin(angle);
-                        ok = true;
-                        for (const p of used) {
-                            const dx = p.x - x;
-                            const dy = p.y - y;
-                            if (dx * dx + dy * dy < minDist) {
-                                ok = false;
-                                break;
-                            }
-                        }
-                        attempts++;
-                        if (attempts > 250) break;
-                    } while (!ok);
-                    positions[word] = { x, y };
-                    used.push({ x, y });
-                });
-
-                secondaryList.forEach((word) => {
-                    const p = positions[word];
-                    if (p) {
-                        p.x += (Math.random() - 0.5) * 25;
-                        p.y += (Math.random() - 0.5) * 25;
-                        const margin = 50;
-                        p.x = Math.max(margin, Math.min(W - margin, p.x));
-                        p.y = Math.max(margin, Math.min(H - margin, p.y));
+                        toggleNav.click();
                     }
                 });
             }
-
-            function drawGraph() {
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = W * dpr;
-                canvas.height = H * dpr;
-                canvas.style.width = W + 'px';
-                canvas.style.height = H + 'px';
-                ctx.scale(dpr, dpr);
-
-                ctx.clearRect(0, 0, W, H);
-
-                if (Object.keys(positions).length === 0) return;
-
-                const cp = positions[core];
-                if (!cp) return;
-
-                const lines = [];
-
-                for (const word of primaryRelated) {
-                    const p = positions[word];
-                    if (p) lines.push({ from: cp, to: p, strength: 'strong' });
-                }
-
-                const secondaryArr = secondaryRelated.slice();
-                const shuffledSec = secondaryArr.slice().sort(() => Math.random() - 0.5);
-                const connectToCore = Math.min(Math.floor(shuffledSec.length * 0.4), 12);
-                for (let i = 0; i < connectToCore && i < shuffledSec.length; i++) {
-                    const p = positions[shuffledSec[i]];
-                    if (p) lines.push({ from: cp, to: p, strength: 'weak' });
-                }
-
-                const primaryArr = Array.from(primaryRelated);
-                for (let i = 0; i < Math.min(shuffledSec.length, 16); i++) {
-                    const secWord = shuffledSec[i];
-                    const secPos = positions[secWord];
-                    if (!secPos) continue;
-                    const shuffledPrimary = primaryArr.slice().sort(() => Math.random() - 0.5);
-                    const numConn = 1 + Math.floor(Math.random() * 2);
-                    for (let j = 0; j < Math.min(numConn, shuffledPrimary.length); j++) {
-                        const primPos = positions[shuffledPrimary[j]];
-                        if (primPos && Math.random() > 0.35) {
-                            lines.push({ from: primPos, to: secPos, strength: 'weak' });
-                        }
-                    }
-                }
-
-                for (const line of lines) {
-                    const { from, to, strength } = line;
-                    const alpha = strength === 'strong' ? 0.3 : 0.08;
-                    const lw = strength === 'strong' ? 2.5 : 1.0;
-                    ctx.beginPath();
-                    ctx.moveTo(from.x, from.y);
-                    ctx.lineTo(to.x, to.y);
-                    ctx.strokeStyle = `rgba(196, 118, 139, ${alpha})`;
-                    ctx.lineWidth = lw;
-                    ctx.stroke();
-                }
-
-                const grad = ctx.createRadialGradient(cp.x, cp.y, 2, cp.x, cp.y, 90);
-                grad.addColorStop(0, 'rgba(196, 118, 139, 0.05)');
-                grad.addColorStop(1, 'rgba(196, 118, 139, 0)');
-                ctx.fillStyle = grad;
-                ctx.beginPath();
-                ctx.arc(cp.x, cp.y, 90, 0, 2 * Math.PI);
-                ctx.fill();
-
-                for (const word of nodes) {
-                    const pos = positions[word];
-                    if (!pos) continue;
-                    const isCore = word === core;
-                    const color = getNodeColor(word, isCore);
-
-                    let fontSize;
-                    if (isCore) fontSize = 22;
-                    else if (primaryRelated.has(word)) fontSize = 17;
-                    else {
-                        const len = word.length;
-                        if (len <= 4) fontSize = 15;
-                        else if (len <= 8) fontSize = 14;
-                        else if (len <= 14) fontSize = 12.5;
-                        else fontSize = 11;
-                    }
-
-                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
-                    const metrics = ctx.measureText(word);
-                    const tw = metrics.width;
-                    const th = fontSize * 1.4;
-                    const padX = isCore ? 26 : 18;
-                    const padY = isCore ? 14 : 10;
-                    const bw = tw + padX * 2;
-                    const bh = th + padY * 2;
-                    const rx = pos.x - bw / 2;
-                    const ry = pos.y - bh / 2;
-
-                    ctx.shadowColor = 'rgba(180, 80, 100, 0.08)';
-                    ctx.shadowBlur = 14;
-                    ctx.shadowOffsetX = 0;
-                    ctx.shadowOffsetY = 2;
-
-                    const r = isCore ? 36 : 24;
-                    ctx.beginPath();
-                    ctx.moveTo(rx + r, ry);
-                    ctx.lineTo(rx + bw - r, ry);
-                    ctx.quadraticCurveTo(rx + bw, ry, rx + bw, ry + r);
-                    ctx.lineTo(rx + bw, ry + bh - r);
-                    ctx.quadraticCurveTo(rx + bw, ry + bh, rx + bw - r, ry + bh);
-                    ctx.lineTo(rx + r, ry + bh);
-                    ctx.quadraticCurveTo(rx, ry + bh, rx, ry + bh - r);
-                    ctx.lineTo(rx, ry + r);
-                    ctx.quadraticCurveTo(rx, ry, rx + r, ry);
-                    ctx.closePath();
-
-                    ctx.fillStyle = color.bg;
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-                    ctx.strokeStyle = color.border;
-                    ctx.lineWidth = isCore ? 2.5 : 1.2;
-                    ctx.stroke();
-
-                    ctx.fillStyle = color.text;
-                    ctx.font = `600 ${fontSize}px -apple-system, sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(word, pos.x, pos.y + 1);
-                }
-            }
-
-            if (!CanvasRenderingContext2D.prototype.roundRect) {
-                CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
-                    if (r > w / 2) r = w / 2;
-                    if (r > h / 2) r = h / 2;
-                    this.moveTo(x + r, y);
-                    this.arcTo(x + w, y, x + w, y + h, r);
-                    this.arcTo(x + w, y + h, x, y + h, r);
-                    this.arcTo(x, y + h, x, y, r);
-                    this.arcTo(x, y, x + w, y, r);
-                    return this;
-                };
-            }
-
-            let rebuildTimer;
-
-            function rebuild() {
-                layoutNodes();
-                drawGraph();
-            }
-
-            window.addEventListener('resize', () => {
-                clearTimeout(rebuildTimer);
-                rebuildTimer = setTimeout(rebuild, 200);
-            });
-
-            setTimeout(rebuild, 100);
-            window.addEventListener('load', () => {
-                setTimeout(rebuild, 300);
-            });
-
-            let animFrame;
-            let driftCount = 0;
-
-            function driftLoop() {
-                driftCount++;
-                if (driftCount % 6 === 0 && Object.keys(positions).length > 0) {
-                    const secondaryList = secondaryRelated.slice();
-                    for (const word of secondaryList) {
-                        const p = positions[word];
-                        if (p) {
-                            p.x += (Math.random() - 0.5) * 1.8;
-                            p.y += (Math.random() - 0.5) * 1.8;
-                            const margin = 50;
-                            p.x = Math.max(margin, Math.min(W - margin, p.x));
-                            p.y = Math.max(margin, Math.min(H - margin, p.y));
-                        }
-                    }
-                    drawGraph();
-                }
-                animFrame = requestAnimationFrame(driftLoop);
-            }
-
-            setTimeout(() => {
-                driftLoop();
-            }, 3000);
-
-            window.addEventListener('beforeunload', () => {
-                if (animFrame) cancelAnimationFrame(animFrame);
-            });
-
-            const observer = new MutationObserver(() => {
-                if (Object.keys(positions).length > 0) {
-                    drawGraph();
-                }
-            });
-            observer.observe(document.documentElement, {
-                attributes: true,
-                attributeFilter: ['data-theme']
-            });
 
         })();
     </script>
