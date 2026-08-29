@@ -307,7 +307,7 @@
             font-size: 0.85rem;
         }
 
-        /* ===== New: Reference Styles ===== */
+        /* ===== Reference Styles ===== */
         .paper-refs {
             margin-top: 16px;
             padding-top: 12px;
@@ -332,15 +332,9 @@
             top: 1px;
             font-size: 0.8rem;
         }
-        .paper-link {
+        .paper-title {
             color: var(--text-secondary);
-            text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease;
-        }
-        .paper-link:hover {
-            color: var(--text-primary);
-            text-decoration: underline;
         }
         .paper-authors {
             color: var(--text-light);
@@ -427,7 +421,7 @@
                 <div class="note-sub-item">
                     <div class="note-sub-title">🔍 GIA (Gradient Inversion Attack)</div>
                     <div class="note-sub-desc">
-                        Gradient Inversion Attack (GIA) is a severe data privacy threat in federated learning. Traditional federated learning assumes "data stays, models move" and only transmits gradients. However, GIA demonstrates that a malicious server or eavesdropper only needs to intercept the gradients uploaded by the client to perfectly reconstruct the client's high-fidelity original training data (including images and text) using optimization algorithms (such as DLG, iDLG), thereby breaking the fundamental privacy guarantees of federated learning.
+                       Gradient inversion attacks reconstruct a client's private training data by optimizing dummy inputs to produce gradients that closely match the gradients shared during federated training.
                     </div>
                     <div class="img-container">
                         <div class="img-wrapper">
@@ -438,9 +432,9 @@
                     <!-- Paper References Area -->
                     <div class="paper-refs">
                         <ul>
-                            <li><a href="https://arxiv.org/abs/1906.08935" target="_blank" class="paper-link">Deep Leakage from Gradients</a> <span class="paper-authors">- Zhu et al., NeurIPS 2019 (DLG Classic Work)</span></li>
-                            <li><a href="https://arxiv.org/abs/2003.14053" target="_blank" class="paper-link">Inverting Gradients - How easy is it to break privacy in federated learning?</a> <span class="paper-authors">- Geiping et al., NeurIPS 2020</span></li>
-                            <li><a href="https://arxiv.org/abs/2001.02610" target="_blank" class="paper-link">iDLG: Improved Deep Leakage from Gradients</a> <span class="paper-authors">- Zhao et al., 2020</span></li>
+                            <li><span class="paper-title">Deep Leakage from Gradients</span> <span class="paper-authors">- Zhu et al., NeurIPS 2019 (DLG Classic Work)</span></li>
+                            <li><span class="paper-title">Inverting Gradients - How easy is it to break privacy in federated learning?</span> <span class="paper-authors">- Geiping et al., NeurIPS 2020</span></li>
+                            <li><span class="paper-title">iDLG: Improved Deep Leakage from Gradients</span> <span class="paper-authors">- Zhao et al., 2020</span></li>
                         </ul>
                     </div>
                 </div>
@@ -450,7 +444,8 @@
                 <div class="note-sub-item">
                     <div class="note-sub-title">🤖 FedLLM (Federated Large Language Models)</div>
                     <div class="note-sub-desc">
-                        FedLLM focuses on the decentralized training and fine-tuning of large language models across distributed clients. Since large models (like LLaMA, GPT series) often have billions of parameters, directly transmitting all gradients would cause an unbearable communication disaster. Therefore, the FedLLM paradigm typically combines Parameter-Efficient Fine-Tuning (PEFT, such as LoRA, P-Tuning), where clients only need to train and upload a very small amount of bypass matrix parameters. This ensures data remains localized while achieving thousands of personalized alignments for large models.
+                       FedLLM applies federated learning to Large Language Models (LLMs), allowing multiple clients to collaboratively train or fine-tune an LLM while keeping their private data locally.
+
                     </div>
                     <div class="img-container">
                         <div class="img-wrapper">
@@ -460,9 +455,10 @@
                     <!-- Paper References Area -->
                     <div class="paper-refs">
                         <ul>
-                            <li><a href="https://arxiv.org/abs/2307.09281" target="_blank" class="paper-link">Federated Learning of Large Language Models: A Comprehensive Survey</a> <span class="paper-authors">- Fan et al., 2023</span></li>
-                            <li><a href="https://arxiv.org/abs/2304.13739" target="_blank" class="paper-link">FedIT: Federated Instruction Tuning of Large Language Models</a> <span class="paper-authors">- Zhang et al., 2023</span></li>
-                            <li><a href="https://arxiv.org/abs/2309.00675" target="_blank" class="paper-link">FFA-LoRA: Towards Parameter-Efficient and Communication-Efficient Federated Learning</a> <span class="paper-authors">- Peng et al., 2023</span></li>
+                            <li><span class="paper-title">Emerging Safety Attack and Defense in Federated Instruction Tuning of Large Language Models</span></li>
+                            <li><span class="paper-title">FedIT: Federated Instruction Tuning of Large Language Models</span> <span class="paper-authors">- Zhang et al., 2023</span></li>
+                            <li><span class="paper-title">FFA-LoRA: Towards Parameter-Efficient and Communication-Efficient Federated Learning</span> <span class="paper-authors">- Peng et al., 2023</span></li>
+                            
                         </ul>
                     </div>
                 </div>
