@@ -388,30 +388,25 @@
             <!-- 垂直排列的介绍区域 -->
             <div class="note-sub-list">
                 
-                <!-- 1. GIA (包含两个图片占位) -->
+                <!-- 1. GIA (被动攻击 - 上) -->
                 <div class="note-sub-item">
-                    <div class="note-sub-title">🔍 GIA (Gradient Inversion Attacks)</div>
-                    <div class="note-sub-desc">Reconstructing private local training data from shared gradients. Categorized into passive and active attack methodologies.</div>
+                    <div class="note-sub-title">🔍 GIA (Passive Attack)</div>
+                    <div class="note-sub-desc">Honest-but-curious servers attempting to reconstruct private local training data purely from observing shared gradients, without modifying the training process.</div>
                     <div class="img-container">
                         <div class="img-wrapper">
-                            <span class="img-label">Passive Attack</span>
                             <!-- 放入真实图片时，将 div 替换为 <img src="你的路径" class="placeholder-img" style="height: auto;" /> -->
-                            <div class="placeholder-img">Image Placeholder</div>
-                        </div>
-                        <div class="img-wrapper">
-                            <span class="img-label">Active Attack</span>
-                            <div class="placeholder-img">Image Placeholder</div>
+                            <div class="placeholder-img">Image Placeholder (Passive Attack)</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. MIA (单图片占位) -->
+                <!-- 2. GIA (主动攻击 - 下) -->
                 <div class="note-sub-item">
-                    <div class="note-sub-title">🕵️‍♂️ MIA (Membership Inference Attacks)</div>
-                    <div class="note-sub-desc">Determining if a specific data record was part of the training set.</div>
+                    <div class="note-sub-title">⚔️ GIA (Active Attack)</div>
+                    <div class="note-sub-desc">Malicious servers actively modifying global model weights, architectures, or injecting malicious prompts to extract user data more effectively.</div>
                     <div class="img-container">
                         <div class="img-wrapper">
-                            <div class="placeholder-img">Image Placeholder</div>
+                            <div class="placeholder-img">Image Placeholder (Active Attack)</div>
                         </div>
                     </div>
                 </div>
