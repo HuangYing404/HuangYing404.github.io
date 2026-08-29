@@ -289,7 +289,7 @@
             font-size: 0.97rem;
             color: var(--text-body);
             line-height: 1.8;
-            background: var(--bg-card); /* 修复：替换了强制纯白，使用变量以支持暗色模式 */
+            background: var(--bg-card);
             border-radius: 12px;
             padding: 16px 22px;
             border: 1px solid var(--border-light); 
@@ -406,7 +406,7 @@
             padding-left: 0;
         }
         .project-item {
-            background: var(--bg-card); /* 修复：替换了强制纯白，使用变量以支持暗色模式 */
+            background: var(--bg-card); 
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 16px;
@@ -499,6 +499,22 @@
             border-radius: 40px;
         }
 
+        /* ===== 右下角嵌入图片样式 ===== */
+        .corner-mascot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 140px; /* 您可以根据需要调整图片大小 */
+            z-index: 999; /* 确保悬浮在最上层 */
+            pointer-events: auto; /* 允许鼠标交互，如果不想影响点击可改为 none */
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .corner-mascot:hover {
+            transform: scale(1.1) translateY(-5px); /* 添加一点可爱的悬停跳动效果 */
+        }
+
         @media (max-width: 860px) {
             .page-container {
                 max-width: 96%;
@@ -562,6 +578,12 @@
             }
             .academic-ack p {
                 padding: 16px 20px;
+            }
+            /* 手机端调小悬浮图片并调整位置 */
+            .corner-mascot {
+                width: 100px;
+                bottom: 10px;
+                right: 10px;
             }
         }
 
@@ -744,6 +766,9 @@
         <span>✨ 2026 · 夏</span>
     </div>
 </div>
+
+<!-- ===== 右下角嵌入的透明小羊矢量图 ===== -->
+<img src="xyy.jpg" alt="Cute Mascot" class="corner-mascot" />
 
 <script>
     (function() {
