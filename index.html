@@ -478,42 +478,34 @@
             border: 1px solid var(--bg-tech-border);
         }
 
-        .acknowledgement {
-            margin-top: 8px;
-            padding: 16px 22px;
-            background: var(--bg-section);
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-light);
-            font-size: 0.93rem;
+        /* ===== 学术风格致谢 (新样式) ===== */
+        .academic-ack {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        .academic-ack h2 {
+            /* 保持统一的标题样式 */
+        }
+        .academic-ack p {
+            text-align: justify;       /* 两端对齐核心属性 */
+            text-justify: inter-word;  /* 提升两端对齐单词间距表现 */
+            font-size: 0.96rem;
+            line-height: 1.8;
             color: var(--text-body);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
+            background: var(--bg-section);
+            padding: 22px 28px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            margin: 0;
         }
-        .acknowledgement .ack-text {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px 14px;
-        }
-        .acknowledgement .ack-text .uni {
-            font-weight: 600;
+        .academic-ack p a {
             color: var(--accent-dark);
-            background: var(--bg-tag);
-            padding: 2px 14px;
-            border-radius: 40px;
             text-decoration: none;
+            font-weight: 500;
         }
-        .acknowledgement .ack-date {
-            font-weight: 450;
-            color: var(--text-light);
-            background: var(--bg-badge);
-            padding: 2px 16px;
-            border-radius: 40px;
-            font-size: 0.82rem;
-            white-space: nowrap;
+        .academic-ack p a:hover {
+            text-decoration: underline;
         }
 
         .footer-note {
@@ -595,6 +587,9 @@
             }
             .nav-links {
                 justify-content: center;
+            }
+            .academic-ack p {
+                padding: 16px 20px;
             }
         }
 
@@ -764,16 +759,13 @@
         </div>
     </section>
 
-    <!-- ===== 致谢 ===== -->
-    <div id="acknowledgement" class="acknowledgement">
-        <div class="ack-text">
-            <span>🙏 With deepest gratitude to</span>
-            <a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="Anhui University">🏛️ Anhui University</a>
-            <a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer" class="uni" title="Wuhan University">🏛️ Wuhan University</a>
-            <span style="opacity:0.6; margin-left:4px;">for their guidance and support</span>
-        </div>
-        <span class="ack-date">📅 Updated: 2026 · 08 · 01</span>
-    </div>
+    <!-- ===== 致谢 (学术排版重构) ===== -->
+    <section id="acknowledgement" class="academic-ack">
+        <h2>Acknowledgement</h2>
+        <p>
+            I would like to express my sincere gratitude to <a href="https://en.ahu.edu.cn/" target="_blank" rel="noopener noreferrer">Anhui University</a> and <a href="https://en.whu.edu.cn/" target="_blank" rel="noopener noreferrer">Wuhan University</a> for their profound guidance, exceptional resources, and unwavering support throughout my academic journey. The rigorous scholarly environment and inspiring research communities at both institutions have been instrumental in shaping my professional endeavors in cyberspace security. I am also deeply thankful to my mentors, colleagues, and peers for their insightful discussions and continuous encouragement which have consistently fueled my passion for academic research.
+        </p>
+    </section>
 
     <div class="footer-note">
         <span>💬 “<em>Where theory meets practice, and knowledge serves the people.</em>”</span>
