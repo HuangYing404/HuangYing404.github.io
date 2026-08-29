@@ -56,7 +56,7 @@
             --accent-shadow: rgba(255, 255, 255, 0.15);
             
             --divider: #222222;
-            --divider-dashed: #333333;
+            --divider-dashed: #444444;
             --border-light: #333333;
         }
 
@@ -249,6 +249,69 @@
             margin-bottom: 12px;
         }
 
+        /* ===== 笔记内部垂直列表 & 图片占位样式 ===== */
+        .note-sub-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 14px 0 20px 0;
+        }
+        .note-sub-item {
+            background: var(--bg-secondary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--divider);
+            transition: border-color var(--transition-speed) ease;
+        }
+        .note-sub-item:hover {
+            border-color: var(--text-muted);
+        }
+        .note-sub-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .note-sub-desc {
+            font-size: 0.88rem;
+            color: var(--text-body);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* 图片占位区域 */
+        .img-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .img-wrapper {
+            flex: 1;
+            min-width: 220px; /* 在手机端会自动换行 */
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .img-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-align: center;
+        }
+        .placeholder-img {
+            width: 100%;
+            height: 160px; /* 占位高度，放入真实图片后可将 height 改为 auto */
+            object-fit: cover;
+            background-color: var(--bg-badge);
+            border: 1px dashed var(--divider-dashed);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
         .note-tags {
             display: flex;
             gap: 6px;
@@ -306,7 +369,7 @@
 
     <!-- ===== Notes 页面头部 ===== -->
     <div class="notes-header">
-        <h1>Study Notes & Research Logs</h1>
+        <h1>My Study Notes</h1>
         <p>A repository of my learning notes, thoughts on academic papers, and technical summaries.</p>
     </div>
 
@@ -319,33 +382,76 @@
                 <span class="note-date">Aug. 2026</span>
             </div>
             <div class="note-summary">
-                Study notes on Federated Learning privacy-preserving techniques and defense mechanisms against data poisoning.
+                Study notes on Federated Learning privacy-preserving techniques, attack vectors, and large model integration.
             </div>
+            
+            <!-- 垂直排列的介绍区域 -->
+            <div class="note-sub-list">
+                
+                <!-- 1. GIA (包含两个图片占位) -->
+                <div class="note-sub-item">
+                    <div class="note-sub-title">🔍 GIA (Gradient Inversion Attacks)</div>
+                    <div class="note-sub-desc">Reconstructing private local training data from shared gradients. Categorized into passive and active attack methodologies.</div>
+                    <div class="img-container">
+                        <div class="img-wrapper">
+                            <span class="img-label">Passive Attack</span>
+                            <!-- 放入真实图片时，将 div 替换为 <img src="你的路径" class="placeholder-img" style="height: auto;" /> -->
+                            <div class="placeholder-img">Image Placeholder</div>
+                        </div>
+                        <div class="img-wrapper">
+                            <span class="img-label">Active Attack</span>
+                            <div class="placeholder-img">Image Placeholder</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. MIA (单图片占位) -->
+                <div class="note-sub-item">
+                    <div class="note-sub-title">🕵️‍♂️ MIA (Membership Inference Attacks)</div>
+                    <div class="note-sub-desc">Determining if a specific data record was part of the training set.</div>
+                    <div class="img-container">
+                        <div class="img-wrapper">
+                            <div class="placeholder-img">Image Placeholder</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Backdoor (单图片占位) -->
+                <div class="note-sub-item">
+                    <div class="note-sub-title">🚪 Backdoor Attacks</div>
+                    <div class="note-sub-desc">Malicious clients injecting hidden triggers or manipulating specific outputs during model aggregation.</div>
+                    <div class="img-container">
+                        <div class="img-wrapper">
+                            <div class="placeholder-img">Image Placeholder</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. FedLLM (单图片占位) -->
+                <div class="note-sub-item">
+                    <div class="note-sub-title">🤖 FedLLM</div>
+                    <div class="note-sub-desc">Federated training paradigms for Large Language Models, utilizing parameter-efficient fine-tuning (PEFT/LoRA).</div>
+                    <div class="img-container">
+                        <div class="img-wrapper">
+                            <div class="placeholder-img">Image Placeholder</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="note-tags">
                 <span class="note-tag">Federated Learning</span>
                 <span class="note-tag">Distributed AI</span>
+                <span class="note-tag">Privacy</span>
             </div>
         </div>
-
-        <!-- 笔记 2: LLM Security -->
-        <!-- <div class="note-card">
-            <div class="note-meta">
-                <a href="#" class="note-title">LLM Security</a>
-                <span class="note-date">Aug. 2026</span>
-            </div>
-            <div class="note-summary">
-                Exploration of Large Language Model safety vulnerabilities, including prompt injection vectors, jailbreak techniques, and AI alignment frameworks.
-            </div>
-            <div class="note-tags">
-                <span class="note-tag">LLM Security</span>
-                <span class="note-tag">AI Safety</span>
-            </div>
-        </div> -->
     </div>
 
     <!-- ===== 页脚 ===== -->
     <div class="footer-note">
         <span>💬 “<em>Documenting the journey of continuous exploration.</em>”</span>
+        <span>✨ 2026 · 夏</span>
     </div>
 </div>
 
